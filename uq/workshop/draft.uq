@@ -1,0 +1,10 @@
+ID Draft UMinute (
+    id,
+    entity SMALLINT,
+    content TEXT,
+);
+
+IX *IxDraft (
+    ix,
+    xi,
+);

@@ -1,0 +1,15 @@
+{
+    "devs": {
+        "jks": {
+            "name": "jksoft",
+            "alias": "jks"
+        }
+    },
+    "uqs": [
+        {
+            "dev": "jks",
+            "name": "warehouse",
+            "alias": "Warehouse"
+        }
+    ]
+}
