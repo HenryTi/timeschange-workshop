@@ -1,10 +1,11 @@
 import { Page } from "tonwa-com";
-import { SheetLink } from "./Sheet";
+import { BinInLink, BinOutLink } from "./BinSheet";
 
 export function ActsPage() {
     return <Page header="Home">
         <div className="">
-            <SheetLink />
+            <BinInLink />
+            <BinOutLink />
         </div>
     </Page>;
 }

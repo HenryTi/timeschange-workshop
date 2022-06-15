@@ -1,4 +1,4 @@
-//=== UqApp builder created on Sun Jun 05 2022 12:55:25 GMT-0400 (北美东部夏令时间) ===//
+//=== UqApp builder created on Tue Jun 14 2022 08:18:44 GMT-0400 (北美东部夏令时间) ===//
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { IDXValue, Uq, UqQuery, UqAction, UqIX, UqID } from "tonwa-uq";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -88,7 +88,7 @@ export interface Product {
 	industry: any;
 }
 
-export interface Owner {
+export interface Shipper {
 	id?: number;
 	no?: string;
 	discription: string;
@@ -101,20 +101,20 @@ export enum Industry {
 
 export interface Spec {
 	id?: number;
+	product: number;
 	no?: string;
-	industry: any;
 }
 
 export interface SpecCloth {
 	id?: number;
+	product: number;
 	no?: string;
-	industry: any;
 }
 
 export interface SpecMedicine {
 	id?: number;
+	product: number;
 	no?: string;
-	industry: any;
 	validTo: any;
 }
 
@@ -170,6 +170,7 @@ export enum SheetType {
 export interface SpecSheet {
 	id?: number;
 	no?: string;
+	shipper: number;
 	type: any;
 }
 
@@ -203,7 +204,7 @@ export interface ParamActs {
 	ixOwnerSpec?: IxOwnerSpec[];
 	bin?: Bin[];
 	product?: Product[];
-	owner?: Owner[];
+	shipper?: Shipper[];
 	spec?: Spec[];
 	specCloth?: SpecCloth[];
 	specMedicine?: SpecMedicine[];
@@ -231,7 +232,7 @@ export interface UqExt extends Uq {
 	IxOwnerSpec: UqIX<any>;
 	Bin: UqID<any>;
 	Product: UqID<any>;
-	Owner: UqID<any>;
+	Shipper: UqID<any>;
 	Spec: UqID<any>;
 	SpecCloth: UqID<any>;
 	SpecMedicine: UqID<any>;
@@ -515,8 +516,8 @@ export const uqSchema={
         "global": false,
         "idType": 2
     },
-    "owner": {
-        "name": "Owner",
+    "shipper": {
+        "name": "Shipper",
         "type": "id",
         "private": false,
         "sys": true,
@@ -572,16 +573,20 @@ export const uqSchema={
                 "null": false
             },
             {
+                "name": "product",
+                "type": "id"
+            },
+            {
                 "name": "no",
                 "type": "char",
                 "size": 20
-            },
-            {
-                "name": "industry",
-                "type": "enum"
             }
         ],
         "keys": [
+            {
+                "name": "product",
+                "type": "id"
+            },
             {
                 "name": "no",
                 "type": "char",
@@ -606,16 +611,20 @@ export const uqSchema={
                 "null": false
             },
             {
+                "name": "product",
+                "type": "id"
+            },
+            {
                 "name": "no",
                 "type": "char",
                 "size": 20
-            },
-            {
-                "name": "industry",
-                "type": "enum"
             }
         ],
         "keys": [
+            {
+                "name": "product",
+                "type": "id"
+            },
             {
                 "name": "no",
                 "type": "char",
@@ -640,13 +649,13 @@ export const uqSchema={
                 "null": false
             },
             {
+                "name": "product",
+                "type": "id"
+            },
+            {
                 "name": "no",
                 "type": "char",
                 "size": 20
-            },
-            {
-                "name": "industry",
-                "type": "enum"
             },
             {
                 "name": "validTo",
@@ -654,6 +663,10 @@ export const uqSchema={
             }
         ],
         "keys": [
+            {
+                "name": "product",
+                "type": "id"
+            },
             {
                 "name": "no",
                 "type": "char",
@@ -834,6 +847,10 @@ export const uqSchema={
                 "name": "no",
                 "type": "char",
                 "size": 20
+            },
+            {
+                "name": "shipper",
+                "type": "id"
             },
             {
                 "name": "type",

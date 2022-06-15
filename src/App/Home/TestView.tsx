@@ -33,8 +33,8 @@ function TickTest({ tick }: VTestProps) {
     let snap = useSnapshot(tick);
     return <div>
         vtest tick: {snap.count}
-        <button onClick={() => nav.open(<TestPage tick={tick} />)}>test</button>
-        <button onClick={() => tick.count++}>inc</button>
+        <button className="ms-3 btn btn-warning" onClick={() => nav.open(<TestPage tick={tick} />)}>test</button>
+        <button className="ms-3 btn btn-secondary" onClick={() => tick.count++}>inc</button>
     </div>;
 }
 

@@ -4,10 +4,11 @@ import { useState } from "react";
 import { BandCom, Detail, FA, MutedSmall, Page, Radio, Sep, useNav } from "tonwa-com";
 import { SelectUser, UserView, IDListEditContext } from "tonwa-uq-com";
 import { User } from "tonwa-uq";
-import { Role } from "uqs/BzWorkshop";
+import { Role } from "uqs/JksWarehouse";
 import { ForAdmin } from "../../ForRole";
 import { PersonDetail } from "./PersonDetail";
 import { MPerson } from "./UqPerson";
+import { caption } from "./PersonLink";
 //import { BoundUserPage } from "./BoundUserPage";
 //import { staffRoleCaptions, staffRoles } from "./UqPerson";
 
@@ -111,7 +112,7 @@ export function PersonEdit({ item, listEditContext }: { item: MPerson; listEditC
     <Sep sep={2} />
 </ForAdmin>
 */
-    return <Page header={'Staff ' + item.no}>
+    return <Page header={`${caption} ${item.no}`}>
         <PersonDetail person={item} fields={JksWarehouse.Person.fields}
             onPersonChanged={onPersonChanged} />
         <Sep sep={2} />
