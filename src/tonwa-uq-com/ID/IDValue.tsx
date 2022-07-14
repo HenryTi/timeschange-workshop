@@ -15,7 +15,7 @@ interface IDCache {
 }
 const caches: IDCache[] = [];
 
-export function IDValue<T extends { id?: number; }>({ id, ID, Template: Value }: Props<T>) {
+export function IDValue<T extends { id?: number; }>({ id, ID, Template }: Props<T>) {
     let [value, setValue] = useState<T>(undefined);
     useEffect(() => {
         async function getValue() {
@@ -44,5 +44,5 @@ export function IDValue<T extends { id?: number; }>({ id, ID, Template: Value }:
         getValue();
     }, [id, ID]);
     if (value === null) return null;
-    return <Value value={value ?? ({ id: undefined } as T)} />;
+    return <Template value={value ?? ({ id: undefined } as T)} />;
 }

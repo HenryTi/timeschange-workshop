@@ -19,6 +19,7 @@ export class StackNav<T extends StackItem> {
     readonly data: {
         stack: T[];
     };
+    private stackLen: number = 0;
     private callStack: ((value: any | PromiseLike<any>) => void)[] = [];
     private pageKeyNO: number;
     constructor() {
@@ -36,7 +37,7 @@ export class StackNav<T extends StackItem> {
                 if (isWaiting === undefined) return;
                 this.open(<Waiting />);
                 isWaiting = true;
-            }, 200);
+            }, 100);
             promise.then(async (pg) => {
                 if (isWaiting === true) {
                     this.close();
@@ -51,15 +52,23 @@ export class StackNav<T extends StackItem> {
     }
 
     protected internalOpen(page: JSX.Element, onClose?: () => boolean): void {
+        this.innerClose();
         let pageItem = {
             key: String(++this.pageKeyNO),
             page, onClose,
         } as T;
         this.data.stack.push(ref(pageItem));
+        this.stackLen = this.data.stack.length
     }
 
     close(level: number = 1) {
-        for (let i = 0; i < level; i++) this.innerClose();
+        this.stackLen -= level;
+        this.innerClose();
+        //for (let i = 0; i < level; i++) this.innerClose();
+    }
+
+    cease(level: number = 1) {
+        this.stackLen -= level;
     }
 
     call<T>(page: JSX.Element | (() => Promise<JSX.Element>)): Promise<T> {
@@ -75,7 +84,7 @@ export class StackNav<T extends StackItem> {
             console.error('nav.call and nav.returnCall not matched');
             return;
         }
-        this.close();
+        this.cease();
         resolve(returnValue);
     }
 
@@ -91,12 +100,16 @@ export class StackNav<T extends StackItem> {
         let { stack } = this.data;
         let len = stack.length;
         if (len === 0) {
-            //this.appNav?.close(this.appPageItem);
+            this.stackLen = 0;
             return;
         }
-        let { onClose } = stack[len - 1];
-        if (onClose?.() === false) return;
-        stack.pop();
+        if (this.stackLen < 0) this.stackLen = 0;
+        let stackLen = this.stackLen;
+        for (let i = len - 1; i >= stackLen; i--) {
+            let { onClose } = stack[i];
+            if (onClose?.() === false) return;
+            stack.pop();
+        }
     }
 }
 
@@ -134,7 +147,8 @@ export class Nav extends StackNav<StackItem> {
             this.tabNav.closeTab();
         }
         else {
-            this.appNav.close();
+            //this.appNav.close();
+            this.appNav.cease();
         }
     }
 }

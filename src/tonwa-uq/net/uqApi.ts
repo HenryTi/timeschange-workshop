@@ -13,7 +13,6 @@ interface UqLocal {
 
 export class UqApi extends ApiBase {
     private inited = false;
-    private initingPromise: Promise<void>;
     uqOwner: string;
     uqName: string;
     uq: string;
@@ -29,10 +28,7 @@ export class UqApi extends ApiBase {
 
     private async init() {
         if (this.inited === true) return;
-        if (!this.initingPromise) {
-            this.initingPromise = this.net.uqTokens.buildAppUq(this.uq, this.uqOwner, this.uqName);
-        }
-        await this.initingPromise;
+        await this.net.uqTokens.buildAppUq(this.uq, this.uqOwner, this.uqName);
         this.inited = true;
     }
 
@@ -52,6 +48,7 @@ export class UqApi extends ApiBase {
             let uqToken = this.net.uqTokens.getUqToken(this.uq); //, this.uqOwner, this.uqName);
             if (!uqToken) {
                 //debugger;
+                this.inited = false;
                 await this.init();
                 uqToken = this.net.uqTokens.getUqToken(this.uq);
             }

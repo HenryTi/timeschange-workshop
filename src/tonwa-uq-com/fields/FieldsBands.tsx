@@ -20,6 +20,7 @@ export function createBandsFromFields(
         if (replace) {
             return (<React.Fragment key={index}>{replace}</React.Fragment>);
         }
+        if (replace === null) return null;
 
         return (<Band key={index} label={name} sep={count > 1 ? sep : null}>
             {createInputFromField(v)}

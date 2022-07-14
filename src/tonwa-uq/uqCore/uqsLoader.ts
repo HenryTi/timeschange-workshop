@@ -35,8 +35,6 @@ export class UQsLoader {
         return await this.uqsMan.buildUqs(uqs, this.uqConfigVersion, this.uqConfigs, this.isBuildingUQ);
     }
 
-
-
     private async loadUqData(uqConfigs: UqConfig[]): Promise<UqData[]> {
         let uqs: UqOption[] = uqConfigs.map(
             v => {

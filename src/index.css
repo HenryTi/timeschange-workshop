@@ -23,6 +23,7 @@ body {
 body {
     /*font-family: SimSun, 宋体, "Arial Narrow", HELVETICA;*/
     font-family: sans-serif;
+    background-color: azure;
     /*display: flex;
     flex-direction: column;*/
 }

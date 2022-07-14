@@ -1,7 +1,7 @@
 import { LMR, FA, Sep } from "tonwa-com";
 import { AboutPage } from './AboutPage';
 import { MeEditPage } from "./MeEditPage";
-import { MeAdminLink } from "./MeAdminLink";
+//import { MeAdminLink } from "./MeAdminLink";
 import { useNav, useT } from "tonwa-com";
 import { appT } from '../res';
 import { meT } from "./meRes";
@@ -40,10 +40,10 @@ export function MeLink() {
         </LMR>;
     }
     if (user) {
+        //<MeAdminLink />
         return <div>
             <MeInfo />
             <Sep />
-            <MeAdminLink />
             <Sep />
             <AboutLink />
             <Sep />

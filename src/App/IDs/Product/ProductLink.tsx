@@ -2,7 +2,7 @@ import { useNav } from "tonwa-com";
 import { IconCommand } from "../../IconCommand";
 import { IndustryList } from "./IndustryList";
 
-export const caption = 'Product';
+export const caption = '行业产品';
 export const icon = 'book';
 export const iconClass = 'text-warning';
 

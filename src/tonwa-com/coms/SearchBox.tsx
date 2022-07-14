@@ -15,77 +15,72 @@ export interface SearchBoxProps {
     allowEmptySearch?: boolean;
 }
 
-/*
-export interface SearchBoxState {
-    disabled: boolean;
-}*/
+export function SearchBox(props: SearchBoxProps) {
+    let { className, inputClassName, onFocus,
+        label, placeholder, buttonText, maxLength, size } = props;
 
-export class SearchBox extends React.Component<SearchBoxProps> { //}, SearchBoxState> {
-    private input: HTMLInputElement;
-    private button: HTMLButtonElement;
-    private key: string = null;
+    let input: HTMLInputElement;
+    let button: HTMLButtonElement;
+    let key: string = null;
 
-    private onChange = (evt: React.ChangeEvent<any>) => {
-        this.key = evt.target.value;
-        if (this.key !== undefined) {
-            this.key = this.key.trim();
-            if (this.key === '') this.key = undefined;
+    function onChange(evt: React.ChangeEvent<any>) {
+        key = evt.target.value;
+        if (key !== undefined) {
+            key = key.trim();
+            if (key === '') key = undefined;
         }
-        console.log('key = ' + this.key);
-        if (this.props.allowEmptySearch === true) {
+        console.log('key = ' + key);
+        if (props.allowEmptySearch === true) {
         }
         else {
-            this.button.disabled = this.key === undefined || this.key.length === 0;
+            button.disabled = key === undefined || key.length === 0;
         }
     }
-    private onSubmit = async (evt: React.FormEvent<any>) => {
+    async function onSubmit(evt: React.FormEvent<any>) {
         evt.preventDefault();
-        if (this.key === null) this.key = this.props.initKey || '';
-        if (this.props.allowEmptySearch !== true) {
-            if (!this.key) return;
-            if (this.input) this.input.disabled = true;
-            if (this.button) this.button.disabled = true;
+        if (key === null) key = props.initKey || '';
+        if (props.allowEmptySearch !== true) {
+            if (!key) return;
+            if (input) input.disabled = true;
+            if (button) button.disabled = true;
         }
-        await this.props.onSearch(this.key);
-        if (this.input) this.input.disabled = false;
-        if (this.button) this.button.disabled = false;
+        await props.onSearch(key);
+        if (input) input.disabled = false;
+        if (button) button.disabled = false;
     }
-    clear() {
-        if (this.input) this.input.value = '';
+    function clear() {
+        if (input) input.value = '';
     }
-    render() {
-        let { className, inputClassName, onFocus,
-            label, placeholder, buttonText, maxLength, size } = this.props;
-        let inputSize: string;
-        switch (size) {
-            default:
-            case 'sm': inputSize = 'input-group-sm'; break;
-            case 'md': inputSize = 'input-group-md'; break;
-            case 'lg': inputSize = 'input-group-lg'; break;
-        }
-        let autoComplete: string;
-        if (env.isMobile === true) autoComplete = 'off';
-        return <form className={className} onSubmit={this.onSubmit} autoComplete={autoComplete}>
-            <div className={"input-group " + inputSize}>
-                {label && <div className="input-group-addon align-self-center me-2">{label}</div>}
-                <input ref={v => this.input = v} onChange={this.onChange}
-                    type="text"
-                    name="key"
-                    onFocus={onFocus}
-                    className={'form-control ' + (inputClassName ?? 'border-primary')}
-                    placeholder={placeholder}
-                    defaultValue={this.props.initKey}
-                    maxLength={maxLength} />
-                <div className="input-group-append">
-                    <button ref={v => this.button = v} className="btn btn-primary"
-                        type="submit"
-                        disabled={this.props.allowEmptySearch !== true}>
-                        <i className='fa fa-search' />
-                        <i className="fa" />
-                        {buttonText}
-                    </button>
-                </div>
+
+    let inputSize: string;
+    switch (size) {
+        default:
+        case 'sm': inputSize = 'input-group-sm'; break;
+        case 'md': inputSize = 'input-group-md'; break;
+        case 'lg': inputSize = 'input-group-lg'; break;
+    }
+    let autoComplete: string;
+    if (env.isMobile === true) autoComplete = 'off';
+    return <form className={className} onSubmit={onSubmit} autoComplete={autoComplete}>
+        <div className={"input-group " + inputSize}>
+            {label && <div className="input-group-addon align-self-center me-2">{label}</div>}
+            <input ref={v => input = v} onChange={onChange}
+                type="text"
+                name="key"
+                onFocus={onFocus}
+                className={'form-control ' + (inputClassName ?? 'border-primary')}
+                placeholder={placeholder}
+                defaultValue={props.initKey}
+                maxLength={maxLength} />
+            <div className="input-group-append">
+                <button ref={v => button = v} className="btn btn-primary"
+                    type="submit"
+                    disabled={props.allowEmptySearch !== true}>
+                    <i className='fa fa-search' />
+                    <i className="fa" />
+                    {buttonText}
+                </button>
             </div>
-        </form>;
-    }
+        </div>
+    </form>;
 }

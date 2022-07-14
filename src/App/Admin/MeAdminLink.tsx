@@ -5,14 +5,17 @@ import { appT } from '../res';
 import { meT } from "./meRes";
 import { useSnapshot } from "valtio";
 import { ReactNode } from "react";
+import { IconCommand } from "App/IconCommand";
 
 export function MeAdminLink() {
     let uqApp = useUqApp();
     let { user } = useSnapshot(uqApp.responsive);
     const { uqs } = uqApp;
+    const { JksWarehouse } = uqs;
 
     let loadAdmins = async (): Promise<any[]> => {
-        let ret = await uqs.JksWarehouse.AdminGetList();
+        let a = await JksWarehouse.RoleMe();
+        let ret = await JksWarehouse.AdminGetList();
         return ret;
     }
 
@@ -25,16 +28,14 @@ export function MeAdminLink() {
     }
 
     function MeAdminLinkContainer({ onClick, children }: { onClick: () => void; children: ReactNode; }) {
-        return <LMR className="py-3 px-3" onClick={onClick}>
+        return <div onClick={onClick}>
             {children}
-        </LMR>;
+        </div>;
     }
 
     let t = useT(meT, appT);
     return <AdminLink LinkContainer={MeAdminLinkContainer}
         me={user?.id} loadAdmins={loadAdmins} setMeAdmin={setMeAdmin} setAdmin={setAdmin}>
-        <FA className="text-primary me-3" name="cogs" fixWidth={true} size="lg" />
-        <b className="text-danger">{t('admin')}</b>
-        <FA className="align-self-center" name="angle-right" />
+        <IconCommand caption={t('admin')} icon="cogs" iconClass="text-danger" onClick={undefined} />
     </AdminLink>;
 }

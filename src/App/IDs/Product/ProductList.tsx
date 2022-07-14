@@ -1,14 +1,15 @@
 import { useEffect } from "react";
-import { Band, FA, LMR, Page, Submit, useNav } from "tonwa-com";
-import { FieldsDetail, FieldsForm, IDListEdit, BandIDNOInput, useIdListEdit } from "tonwa-uq-com";
+import { FA, LMR, Page, useNav } from "tonwa-com";
+import { FieldsDetail, IDListEdit, useIdListEdit } from "tonwa-uq-com";
 import { useUqApp } from "../../UqApp";
-import { Industry, Product } from "uqs/JksWarehouse";
+import { Product } from "uqs/JksWarehouse";
 import { ProductItem } from "./ProductItem";
 import { caption, icon, iconClass } from './ProductLink';
 import { ProductAddPage } from "./ProductAdd";
+import { industryCaption } from "App/Industry";
 
 interface Props {
-    industry: Industry;
+    industry: string;
 }
 
 export function ProductList({ industry }: Props) {
@@ -25,15 +26,16 @@ export function ProductList({ industry }: Props) {
     useEffect(() => {
         async function loadList() {
             let { JksWarehouse } = app.uqs;
-            let ret = await JksWarehouse.QueryID<Product>({
+            let ret = await JksWarehouse.GetIndustryProducts.query({ industryName: industry });
+            /*.QueryID<Product>({
                 ID: JksWarehouse.Product,
                 page: { start: 0, size: 10 },
                 order: 'desc',
-            });
-            listEditContext.setItems(ret);
+            });*/
+            listEditContext.setItems(ret.ret);
         }
         loadList();
-    }, [app, listEditContext]);
+    }, [app, listEditContext, industry]);
 
     let { JksWarehouse } = app.uqs;
     let { Product } = JksWarehouse;
@@ -42,7 +44,7 @@ export function ProductList({ industry }: Props) {
         listEditContext.onItemChanged(product);
     }
     let onAdd = async () => {
-        nav.open(<ProductAddPage onProductAdded={onProductAdded} />);
+        nav.open(<ProductAddPage industry={industry} onProductAdded={onProductAdded} />);
     };
 
     let onEditItem = (item: Product): Promise<void> => {
@@ -84,7 +86,7 @@ export function ProductList({ industry }: Props) {
         <FA name="plus" />
     </button>;
 
-    return <Page header={caption} right={right}>
+    return <Page header={caption + ' - ' + industryCaption[industry]} right={right}>
         <IDListEdit context={listEditContext} itemKey="id" ItemView={ItemView} onItemClick={onEditItem} />
     </Page>;
 }
