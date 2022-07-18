@@ -13,7 +13,7 @@ import { UqEnum } from './enum';
 import { Entity } from './entity';
 import { ID, IX, IDX } from './ID';
 import { Net } from '../net';
-import { UqRole } from './uqRole';
+import { UqSys } from './uqSys';
 
 export type FieldType = 'id' | 'tinyint' | 'smallint' | 'int' | 'bigint' | 'dec' | 'float' | 'double' | 'char' | 'text'
     | 'datetime' | 'date' | 'time' | 'timestamp' | 'enum';
@@ -251,14 +251,8 @@ enum EnumResultType { data, sql };
 export interface Uq {
     $: Uq;
     $name: string;
+    sys: UqSys;
     idObj<T = any>(id: number): Promise<T>;
-    AdminGetList(): Promise<any[]>;
-    AdminSetMe(): Promise<void>;
-    AdminSet(user: number, role: number, assigned: string): Promise<void>;
-    AdminIsMe(): Promise<boolean>;
-
-    RoleMe(): Promise<any[]>;
-
     IDValue(type: string, value: string): object;
     Acts(param: any): Promise<any>;
     ActIX<T>(param: ParamActIX<T>): Promise<number[]>;
@@ -288,6 +282,11 @@ export interface Uq {
     ActDetail<M, D>(param: ParamActDetail<M, D>): Promise<RetActDetail>;
     ActDetail<M, D, D2>(param: ParamActDetail2<M, D, D2>): Promise<RetActDetail2>;
     ActDetail<M, D, D2, D3>(param: ParamActDetail3<M, D, D2, D3>): Promise<RetActDetail3>;
+
+    AdminGetList(): Promise<any[]>;
+    AdminSetMe(): Promise<void>;
+    AdminSet(user: number, role: number, assigned: string): Promise<void>;
+    AdminIsMe(): Promise<boolean>;
 }
 
 export class UqMan {
@@ -307,13 +306,14 @@ export class UqMan {
     private readonly pendings: { [name: string]: Pending } = {};
     private readonly tuidsCache: TuidsCache;
     private readonly localEntities: LocalCache;
-    private readonly uqRole: UqRole;
+    readonly sys: UqSys;
     readonly localMap: LocalMap;
     readonly localModifyMax: LocalCache;
     readonly tuids: { [name: string]: Tuid } = {};
     readonly newVersion: boolean;
     readonly uqOwner: string;
     readonly uqName: string;
+    readonly uqSchema: any;
     readonly name: string;
     readonly id: number;
     readonly net: Net;
@@ -324,12 +324,13 @@ export class UqMan {
     uqVersion: number;
     config: UqConfig;
 
-    constructor(net: Net, uqData: UqData) {
+    constructor(net: Net, uqData: UqData, uqSchema: any) {
         this.net = net;
         let { id, uqOwner, uqName, newVersion } = uqData;
         this.newVersion = newVersion;
         this.uqOwner = uqOwner;
         this.uqName = uqName;
+        this.uqSchema = uqSchema;
         this.id = id;
         this.name = uqOwner + '/' + uqName;
         this.uqVersion = 0;
@@ -339,12 +340,8 @@ export class UqMan {
         this.tuidsCache = new TuidsCache(this);
         let baseUrl = 'tv/';
         this.uqApi = new UqApi(this.net, baseUrl, this.uqOwner, this.uqName);
-        this.uqRole = new UqRole(this.uqApi);
-        this.RoleMe = this.uqRole.RoleMe;
+        this.sys = new UqSys(this.entities, uqSchema['$role']?.names);
     }
-
-    // ====== Role =======
-    protected readonly RoleMe: () => Promise<any[]>;
 
     getID(name: string): ID { return this.ids[name.toLowerCase()]; };
     getIDX(name: string): IDX { return this.idxs[name.toLowerCase()]; };
@@ -613,6 +610,8 @@ export class UqMan {
         type = parts[0];
         let id = Number(parts[1]);
         switch (type) {
+            default:
+                break;
             //case 'uq': this.id = id; break;
             case 'tuid':
                 // Tuid should not be created here!;

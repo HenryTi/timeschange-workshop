@@ -25,6 +25,7 @@ let uqAppId = 1;
 export abstract class UqAppBase<U = any> {
     private readonly appConfig: AppConfig;
     private readonly uqConfigs: UqConfig[];
+    private readonly uqsSchema: { [uq: string]: any; };
     private localData: LocalData;
     readonly uqAppBaseId: number;
     readonly net: Net;
@@ -37,10 +38,11 @@ export abstract class UqAppBase<U = any> {
     guest: number;
     uqs: U;
 
-    constructor(appConfig: AppConfig, uqConfigs: UqConfig[]) {
+    constructor(appConfig: AppConfig, uqConfigs: UqConfig[], uqsSchema: { [uq: string]: any; }) {
         this.uqAppBaseId = uqAppId++;
         this.appConfig = appConfig;
         this.uqConfigs = uqConfigs;
+        this.uqsSchema = uqsSchema;
         this.version = appConfig.version;
         this.responsive = proxy({
             user: undefined,
@@ -115,7 +117,7 @@ export abstract class UqAppBase<U = any> {
 
         //this.uqsUserId = this.responsive.user?.id;
         let { version } = this.appConfig;
-        let uqsLoader = new UQsLoader(this.net, version, this.uqConfigs);
+        let uqsLoader = new UQsLoader(this.net, version, this.uqConfigs, this.uqsSchema);
 
         this.initErrors = await uqsLoader.build();
         this.uqs = uqsProxy(uqsLoader.uqsMan) as any; //  this.uqsMan.proxy;

@@ -2,7 +2,7 @@ import { useContext, useRef } from 'react';
 import { NavigateFunction } from "react-router-dom";
 import { AppConfig, AutoRefresh, UqAppBase, UqAppBaseView, UqAppContext } from "tonwa-uq-com";
 import { UqConfig } from 'tonwa-uq';
-import { UQs } from "uqs";
+import { UQs, uqsSchema } from "uqs";
 import { Role } from "uqs/JksWarehouse";
 //import { AppRoutes } from './AppWithTabs';
 import { AppRoutes } from './AppWithPageStack';
@@ -17,10 +17,12 @@ export class UqApp extends UqAppBase<UQs> {
 
     async init(initPage: React.ReactNode, navigateFunc: NavigateFunction): Promise<any> {
         await super.init(initPage, navigateFunc);
-        let poked = () => this.uqs.JksWarehouse.$poked.query(undefined, undefined, false);
-        let autoLoader: Promise<any> = undefined;
-        this.autoRefresh = new AutoRefresh(poked, autoLoader);
-        this.autoRefresh.start();
+        if (this.uqs) {
+            //let poked = () => this.uqs.JksWarehouse.$poked.query(undefined, undefined, false);
+            let autoLoader: Promise<any> = undefined;
+            this.autoRefresh = new AutoRefresh(this.uqs.JksWarehouse, autoLoader);
+            this.autoRefresh.start();
+        }
     }
 
     async getIsRole(roles: Role[]): Promise<boolean> {
@@ -126,7 +128,7 @@ function uqConfigsFromJson(json: { devs: { [dev: string]: any }; uqs: any[]; }):
 const uqConfigs = uqConfigsFromJson(uqconfigJson);
 
 export function UqAppView() {
-    let { current: uqApp } = useRef(new UqApp(appConfig, uqConfigs));
+    let { current: uqApp } = useRef(new UqApp(appConfig, uqConfigs, uqsSchema));
     return <UqAppBaseView uqApp={uqApp}>
         <AppRoutes />
     </UqAppBaseView>

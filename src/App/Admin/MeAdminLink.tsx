@@ -14,7 +14,7 @@ export function MeAdminLink() {
     const { JksWarehouse } = uqs;
 
     let loadAdmins = async (): Promise<any[]> => {
-        let a = await JksWarehouse.RoleMe();
+        let a = await JksWarehouse.sys.RoleMe();
         let ret = await JksWarehouse.AdminGetList();
         return ret;
     }

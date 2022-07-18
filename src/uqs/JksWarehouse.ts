@@ -1,6 +1,6 @@
-//=== UqApp builder created on Mon Jul 04 2022 16:38:07 GMT-0400 (北美东部夏令时间) ===//
+//=== UqApp builder created on Sat Jul 16 2022 13:42:30 GMT-0400 (北美东部夏令时间) ===//
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { IDXValue, Uq, UqQuery, UqAction, UqIX, UqID, UqIDX } from "tonwa-uq";
+import { IDXValue, Uq, UqID, UqIDX, UqQuery, UqIX, UqAction } from "tonwa-uq";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 // import { Render, IDXEntity } from "tonwa-react";
 
@@ -22,44 +22,9 @@ export interface IX {
     xi: number;
 }
 
-export interface Param$poked {
-}
-export interface Return$pokedRet {
-	poke: number;
-}
-export interface Result$poked {
-	ret: Return$pokedRet[];
-}
-
-export interface Param$setMyTimezone {
-	_timezone: number;
-}
-export interface Result$setMyTimezone {
-}
-
-export interface Param$getUnitTime {
-}
-export interface Return$getUnitTimeRet {
-	timezone: number;
-	unitTimeZone: number;
-	unitBizMonth: number;
-	unitBizDate: number;
-}
-export interface Result$getUnitTime {
-	ret: Return$getUnitTimeRet[];
-}
-
 export enum WarehouseAction {
 	out = 0,
 	in = 1
-}
-
-export interface IxSpecBin extends IX {
-	quantity: number;
-}
-
-export interface IxSpecState extends IX {
-	quantity: number;
 }
 
 export interface SpecHistory extends ID {
@@ -75,12 +40,6 @@ export interface SpecHistoryInActs extends ID {
 	Bin: number | ID;
 	action: any;
 	quantity: number;
-}
-
-export interface IxProductSpec extends IX {
-}
-
-export interface IxOwnerSpec extends IX {
 }
 
 export interface BzType extends ID {
@@ -121,20 +80,6 @@ export interface BzValue extends IDX {
 	initCalcingDailyDate?: any|IDXValue;
 	timeZone?: number|IDXValue;
 	$act?: number;
-}
-
-export interface BzHistory extends IX {
-	value: number;
-	op: number;
-}
-
-export interface BzDaily extends IX {
-	value: number;
-	ixx: number;
-}
-
-export interface BzDailyInit extends IX {
-	value: number;
 }
 
 export interface ParamGetBzHistory {
@@ -503,6 +448,13 @@ export interface ResultGetSheet {
 	details: ReturnGetSheetDetails[];
 }
 
+export const $Role = [
+	'staff',
+	'shipper.receiver',
+	'shipper.delivery',
+	'shipper.accountant'
+];
+
 export enum Role {
 	staff = 10
 }
@@ -514,17 +466,10 @@ export interface IxPersonRole extends IX {
 }
 
 export interface ParamActs {
-	ixSpecBin?: IxSpecBin[];
-	ixSpecState?: IxSpecState[];
 	specHistory?: SpecHistoryInActs[];
-	ixProductSpec?: IxProductSpec[];
-	ixOwnerSpec?: IxOwnerSpec[];
 	bzType?: BzTypeInActs[];
 	bzOp?: BzOpInActs[];
 	bzValue?: ActParamBzValue[];
-	bzHistory?: BzHistory[];
-	bzDaily?: BzDaily[];
-	bzDailyInit?: BzDailyInit[];
 	bzInventorySpec?: BzInventorySpecInActs[];
 	bzShipperInventorySpec?: BzShipperInventorySpecInActs[];
 	bin?: BinInActs[];
@@ -553,20 +498,10 @@ export interface UqExt extends Uq {
 	IDRender(id:number):JSX.Element;
 	IDLocalRender(id:number):JSX.Element;
 
-	$poked: UqQuery<Param$poked, Result$poked>;
-	$setMyTimezone: UqAction<Param$setMyTimezone, Result$setMyTimezone>;
-	$getUnitTime: UqQuery<Param$getUnitTime, Result$getUnitTime>;
-	IxSpecBin: UqIX<any>;
-	IxSpecState: UqIX<any>;
 	SpecHistory: UqID<any>;
-	IxProductSpec: UqIX<any>;
-	IxOwnerSpec: UqIX<any>;
 	BzType: UqID<any>;
 	BzOp: UqID<any>;
 	BzValue: UqIDX<any>;
-	BzHistory: UqIX<any>;
-	BzDaily: UqIX<any>;
-	BzDailyInit: UqIX<any>;
 	GetBzHistory: UqQuery<ParamGetBzHistory, ResultGetBzHistory>;
 	BzInventorySpec: UqID<any>;
 	BzShipperInventorySpec: UqID<any>;
@@ -601,67 +536,6 @@ export interface UqExt extends Uq {
 
 
 export const uqSchema={
-    "$poked": {
-        "name": "$poked",
-        "type": "query",
-        "private": false,
-        "sys": true,
-        "fields": [] as any,
-        "returns": [
-            {
-                "name": "ret",
-                "fields": [
-                    {
-                        "name": "poke",
-                        "type": "tinyint"
-                    }
-                ]
-            }
-        ]
-    },
-    "$setmytimezone": {
-        "name": "$setMyTimezone",
-        "type": "action",
-        "private": false,
-        "sys": true,
-        "fields": [
-            {
-                "name": "_timezone",
-                "type": "tinyint"
-            }
-        ],
-        "returns": [] as any
-    },
-    "$getunittime": {
-        "name": "$getUnitTime",
-        "type": "query",
-        "private": false,
-        "sys": true,
-        "fields": [] as any,
-        "returns": [
-            {
-                "name": "ret",
-                "fields": [
-                    {
-                        "name": "timezone",
-                        "type": "tinyint"
-                    },
-                    {
-                        "name": "unitTimeZone",
-                        "type": "tinyint"
-                    },
-                    {
-                        "name": "unitBizMonth",
-                        "type": "tinyint"
-                    },
-                    {
-                        "name": "unitBizDate",
-                        "type": "tinyint"
-                    }
-                ]
-            }
-        ]
-    },
     "warehouseaction": {
         "name": "WarehouseAction",
         "type": "enum",
@@ -671,56 +545,6 @@ export const uqSchema={
             "out": 0,
             "in": 1
         }
-    },
-    "ixspecbin": {
-        "name": "IxSpecBin",
-        "type": "ix",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "quantity",
-                "type": "dec",
-                "scale": 4,
-                "precision": 18
-            },
-            {
-                "name": "ix",
-                "type": "id"
-            },
-            {
-                "name": "xi",
-                "type": "id"
-            }
-        ],
-        "ixxx": false,
-        "ixx": false,
-        "xiType": 0
-    },
-    "ixspecstate": {
-        "name": "IxSpecState",
-        "type": "ix",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "quantity",
-                "type": "dec",
-                "scale": 4,
-                "precision": 18
-            },
-            {
-                "name": "ix",
-                "type": "id"
-            },
-            {
-                "name": "xi",
-                "type": "id"
-            }
-        ],
-        "ixxx": false,
-        "ixx": false,
-        "xiType": 0
     },
     "spechistory": {
         "name": "SpecHistory",
@@ -755,44 +579,6 @@ export const uqSchema={
         "keys": [] as any,
         "global": false,
         "idType": 4
-    },
-    "ixproductspec": {
-        "name": "IxProductSpec",
-        "type": "ix",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "ix",
-                "type": "id"
-            },
-            {
-                "name": "xi",
-                "type": "id"
-            }
-        ],
-        "ixxx": false,
-        "ixx": false,
-        "xiType": 0
-    },
-    "ixownerspec": {
-        "name": "IxOwnerSpec",
-        "type": "ix",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "ix",
-                "type": "id"
-            },
-            {
-                "name": "xi",
-                "type": "id"
-            }
-        ],
-        "ixxx": false,
-        "ixx": false,
-        "xiType": 0
     },
     "bztype": {
         "name": "BzType",
@@ -899,91 +685,6 @@ export const uqSchema={
         ],
         "update": true
     },
-    "bzhistory": {
-        "name": "BzHistory",
-        "type": "ix",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "value",
-                "type": "dec",
-                "scale": 4,
-                "precision": 18
-            },
-            {
-                "name": "op",
-                "type": "id",
-                "ID": "bzop"
-            },
-            {
-                "name": "ix",
-                "type": "id"
-            },
-            {
-                "name": "xi",
-                "type": "id"
-            }
-        ],
-        "ixxx": false,
-        "ixx": false,
-        "xiType": 0
-    },
-    "bzdaily": {
-        "name": "BzDaily",
-        "type": "ix",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "value",
-                "type": "dec",
-                "scale": 4,
-                "precision": 18
-            },
-            {
-                "name": "ixx",
-                "type": "id"
-            },
-            {
-                "name": "ix",
-                "type": "date"
-            },
-            {
-                "name": "xi",
-                "type": "id",
-                "ID": "$nu"
-            }
-        ],
-        "ixxx": false,
-        "ixx": true,
-        "xiType": 0
-    },
-    "bzdailyinit": {
-        "name": "BzDailyInit",
-        "type": "ix",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "value",
-                "type": "dec",
-                "scale": 4,
-                "precision": 18
-            },
-            {
-                "name": "ix",
-                "type": "id"
-            },
-            {
-                "name": "xi",
-                "type": "date"
-            }
-        ],
-        "ixxx": false,
-        "ixx": false,
-        "xiType": 0
-    },
     "bzwrite": {
         "name": "BzWrite",
         "type": "proc",
@@ -1043,7 +744,8 @@ export const uqSchema={
                     {
                         "name": "op",
                         "type": "id",
-                        "ID": "bzop"
+                        "ID": "bzop",
+                        "tuid": "bzop"
                     }
                 ],
                 "order": "desc"
@@ -1064,7 +766,8 @@ export const uqSchema={
             {
                 "name": "bzType",
                 "type": "id",
-                "ID": "bztype"
+                "ID": "bztype",
+                "tuid": "bztype"
             },
             {
                 "name": "spec",
@@ -1075,7 +778,8 @@ export const uqSchema={
             {
                 "name": "bzType",
                 "type": "id",
-                "ID": "bztype"
+                "ID": "bztype",
+                "tuid": "bztype"
             },
             {
                 "name": "spec",
@@ -1099,12 +803,14 @@ export const uqSchema={
             {
                 "name": "bzType",
                 "type": "id",
-                "ID": "bztype"
+                "ID": "bztype",
+                "tuid": "bztype"
             },
             {
                 "name": "shipper",
                 "type": "id",
-                "ID": "shipper"
+                "ID": "shipper",
+                "tuid": "shipper"
             },
             {
                 "name": "spec",
@@ -1115,12 +821,14 @@ export const uqSchema={
             {
                 "name": "bzType",
                 "type": "id",
-                "ID": "bztype"
+                "ID": "bztype",
+                "tuid": "bztype"
             },
             {
                 "name": "shipper",
                 "type": "id",
-                "ID": "shipper"
+                "ID": "shipper",
+                "tuid": "shipper"
             },
             {
                 "name": "spec",
@@ -1188,7 +896,7 @@ export const uqSchema={
     "namebzop": {
         "name": "NameBzOp",
         "type": "const",
-        "private": true,
+        "private": false,
         "sys": true,
         "fields": [] as any,
         "values": {
@@ -1199,7 +907,7 @@ export const uqSchema={
     "namebztype": {
         "name": "NameBzType",
         "type": "const",
-        "private": true,
+        "private": false,
         "sys": true,
         "fields": [] as any,
         "values": {
@@ -1257,7 +965,8 @@ export const uqSchema={
             {
                 "name": "industry",
                 "type": "id",
-                "ID": "industry"
+                "ID": "industry",
+                "tuid": "industry"
             }
         ],
         "keys": [
@@ -1311,7 +1020,7 @@ export const uqSchema={
     "nameindustry": {
         "name": "NameIndustry",
         "type": "const",
-        "private": true,
+        "private": false,
         "sys": true,
         "fields": [] as any,
         "values": {
@@ -1383,7 +1092,8 @@ export const uqSchema={
             {
                 "name": "product",
                 "type": "id",
-                "ID": "product"
+                "ID": "product",
+                "tuid": "product"
             },
             {
                 "name": "no",
@@ -1395,7 +1105,8 @@ export const uqSchema={
             {
                 "name": "product",
                 "type": "id",
-                "ID": "product"
+                "ID": "product",
+                "tuid": "product"
             },
             {
                 "name": "no",
@@ -1423,7 +1134,8 @@ export const uqSchema={
             {
                 "name": "product",
                 "type": "id",
-                "ID": "product"
+                "ID": "product",
+                "tuid": "product"
             },
             {
                 "name": "no",
@@ -1435,7 +1147,8 @@ export const uqSchema={
             {
                 "name": "product",
                 "type": "id",
-                "ID": "product"
+                "ID": "product",
+                "tuid": "product"
             },
             {
                 "name": "no",
@@ -1463,7 +1176,8 @@ export const uqSchema={
             {
                 "name": "product",
                 "type": "id",
-                "ID": "product"
+                "ID": "product",
+                "tuid": "product"
             },
             {
                 "name": "no",
@@ -1479,7 +1193,8 @@ export const uqSchema={
             {
                 "name": "product",
                 "type": "id",
-                "ID": "product"
+                "ID": "product",
+                "tuid": "product"
             },
             {
                 "name": "no",
@@ -1527,7 +1242,8 @@ export const uqSchema={
                     {
                         "name": "industry",
                         "type": "id",
-                        "ID": "industry"
+                        "ID": "industry",
+                        "tuid": "industry"
                     }
                 ]
             }
@@ -1561,7 +1277,8 @@ export const uqSchema={
                     {
                         "name": "product",
                         "type": "id",
-                        "ID": "product"
+                        "ID": "product",
+                        "tuid": "product"
                     },
                     {
                         "name": "no",
@@ -1600,7 +1317,8 @@ export const uqSchema={
                     {
                         "name": "product",
                         "type": "id",
-                        "ID": "product"
+                        "ID": "product",
+                        "tuid": "product"
                     },
                     {
                         "name": "no",
@@ -1761,7 +1479,7 @@ export const uqSchema={
     "namesheettype": {
         "name": "NameSheetType",
         "type": "const",
-        "private": true,
+        "private": false,
         "sys": true,
         "fields": [] as any,
         "values": {
@@ -1772,7 +1490,7 @@ export const uqSchema={
     "namesheetstate": {
         "name": "NameSheetState",
         "type": "const",
-        "private": true,
+        "private": false,
         "sys": true,
         "fields": [] as any,
         "values": {
@@ -1785,7 +1503,7 @@ export const uqSchema={
     "namesheetact": {
         "name": "NameSheetAct",
         "type": "const",
-        "private": true,
+        "private": false,
         "sys": true,
         "fields": [] as any,
         "values": {
@@ -1909,12 +1627,14 @@ export const uqSchema={
             {
                 "name": "type",
                 "type": "id",
-                "ID": "sheettype"
+                "ID": "sheettype",
+                "tuid": "sheettype"
             },
             {
                 "name": "shipper",
                 "type": "id",
-                "ID": "shipper"
+                "ID": "shipper",
+                "tuid": "shipper"
             }
         ],
         "keys": [
@@ -2074,12 +1794,14 @@ export const uqSchema={
                     {
                         "name": "type",
                         "type": "id",
-                        "ID": "sheettype"
+                        "ID": "sheettype",
+                        "tuid": "sheettype"
                     },
                     {
                         "name": "shipper",
                         "type": "id",
-                        "ID": "shipper"
+                        "ID": "shipper",
+                        "tuid": "shipper"
                     }
                 ]
             },
@@ -2113,6 +1835,17 @@ export const uqSchema={
             }
         ]
     },
+    "$role": {
+        "name": "$role",
+        "type": "$role",
+        "private": false,
+        "names": [
+            "staff",
+            "shipper.receiver",
+            "shipper.delivery",
+            "shipper.accountant"
+        ]
+    },
     "role": {
         "name": "Role",
         "type": "enum",
@@ -2131,12 +1864,14 @@ export const uqSchema={
             {
                 "name": "ix",
                 "type": "id",
-                "ID": "$user"
+                "ID": "$user",
+                "tuid": "$user"
             },
             {
                 "name": "xi",
                 "type": "id",
-                "ID": "$uu"
+                "ID": "$uu",
+                "tuid": "$uu"
             }
         ],
         "ixxx": false,
@@ -2152,7 +1887,8 @@ export const uqSchema={
             {
                 "name": "ix",
                 "type": "id",
-                "ID": "$uu"
+                "ID": "$uu",
+                "tuid": "$uu"
             },
             {
                 "name": "xi",
