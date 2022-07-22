@@ -340,7 +340,7 @@ export class UqMan {
         this.tuidsCache = new TuidsCache(this);
         let baseUrl = 'tv/';
         this.uqApi = new UqApi(this.net, baseUrl, this.uqOwner, this.uqName);
-        this.sys = new UqSys(this.entities, uqSchema['$role']?.names);
+        this.sys = new UqSys(this.entities);
     }
 
     getID(name: string): ID { return this.ids[name.toLowerCase()]; };

@@ -16,7 +16,7 @@ export function SelectUser({ header }: Props) {
         let retUser = await app.userApi.userFromName(key);
         setUser(retUser);
     }
-
+    header = header ?? 'Select user';
     let vContent: any;
     if (user === null) {
         vContent = null;
@@ -36,13 +36,13 @@ export function SelectUser({ header }: Props) {
             </div>
             <div className="text-center mt-5">
                 <button className="btn btn-primary" onClick={() => nav.returnCall(user)}>
-                    {header}
+                    OK
                 </button>
             </div>
         </>;
     }
 
-    return <Page header={header ?? 'Select user'} back="close">
+    return <Page header={header} back="close">
         <div className="p-3 d-flex align-items-center flex-column">
             <div className="mx-auto mb-3">
                 <SearchBox className="w-min-20c"

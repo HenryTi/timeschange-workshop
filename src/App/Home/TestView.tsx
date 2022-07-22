@@ -73,11 +73,14 @@ export function TestPage({ tick }: PTestProps) {
             default: return 'val can only be bv1 or bv2';
         }
     }
-    function ruleForm(v: any) {
+    function ruleForm(v: any): any[] {
+        return;
+        /*
         return [
             'err1',
             'err2',
         ]
+        */
     }
     let initValues = {
         a0: undefined as string, //'ttt0',

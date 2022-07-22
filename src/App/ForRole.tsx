@@ -1,5 +1,5 @@
 import { useUqApp } from "./UqApp";
-import { Role } from "uqs/JksWarehouse";
+import { Role } from "uqs/BzWorkshop";
 import { useEffect, useState } from "react";
 
 interface ForRoleProps {

@@ -8,7 +8,7 @@ export interface FieldsBandsProps {
 }
 export function createBandsFromFields(
     props: FieldsBandsProps,
-    sep?: number | JSX.Element
+    sep?: number | JSX.Element,
 ) {
     let count = 0;
     let { fields, replacer } = props;

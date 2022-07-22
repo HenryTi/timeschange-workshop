@@ -3,6 +3,7 @@ import { useSnapshot } from 'valtio';
 import { BandContext, VBandContext } from './BandContext';
 import { FA } from '../coms';
 import { useBandContainer } from './BandContainer';
+import { OptionItem } from '../defines';
 
 export enum BandContentType {
     check,      // checkbox
@@ -101,15 +102,14 @@ function buildDetailChildren(children: React.ReactNode): [React.ReactNode[], boo
             }
             let e = c as JSX.Element;
             let { props } = e;
-            let name: string;
             if (props) {
-                name = props.name;
-                if (!(props.readOnly === true)) readOnly = false;
-            }
-            if (name) {
                 let { key } = e;
-                ret.push(<Value key={key} name={name} />);
-                return;
+                let { name, options } = props;
+                if (!(props.readOnly === true)) readOnly = false;
+                if (name) {
+                    ret.push(<Value key={key} name={name} options={options} />);
+                    return;
+                }
             }
             if (cs === c) return; // 这里应该不可能的，child 居然 = parent
             ret.push(React.createElement(e.type, props, ...each(e)));
@@ -120,11 +120,20 @@ function buildDetailChildren(children: React.ReactNode): [React.ReactNode[], boo
     return [each(children), readOnly];
 }
 
-function Value({ name }: { name: string; }) {
+function Value({ name, options }: { name: string; options?: OptionItem[]; }) {
     let bandContainer = useBandContainer();
     let { valueResponse, defaultNone } = bandContainer;
     let snapshop = useSnapshot(valueResponse.values);
-    return <div className='py-2'>{snapshop[name] ?? defaultNone}</div>;
+    let val = snapshop[name];
+    if (options) {
+        if (val) {
+            let option = options.find(v => v.value === val);
+            if (option) {
+                val = option.label;
+            }
+        }
+    }
+    return <div className='py-2'>{val ?? defaultNone}</div>;
 }
 
 export function Band(props: BandProps & { children: React.ReactNode; }) {

@@ -19,7 +19,7 @@ export class BandContext {
         this.errors = proxy([]);
         this.memos = memos;
         this.fields = {};
-        container.bands.push(this);
+        container?.bands.push(this);
     }
 
     setError(name: string, error: string[]) {

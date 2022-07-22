@@ -1,7 +1,7 @@
 import { proxy } from "valtio";
 import { ID } from "tonwa-uq";
-import { Role, Person } from "uqs/JksWarehouse";
-import { JksWarehouse } from "uqs";
+import { Role, Person } from "uqs/BzWorkshop";
+import { BzWorkshop } from "uqs";
 import { UqApp, useUqApp } from "App/UqApp";
 import { useRef } from "react";
 
@@ -11,7 +11,8 @@ export interface MPerson extends Person {
 }
 
 export class UqPerson {
-    readonly uq: JksWarehouse.UqExt;
+    private readonly role: Role;
+    readonly uq: BzWorkshop.UqExt;
     readonly ID: ID;
     initNO: string;
 
@@ -20,9 +21,10 @@ export class UqPerson {
         items: any[];
     };
 
-    constructor(uqApp: UqApp) {
-        this.uq = uqApp.uqs.JksWarehouse;
-        this.ID = uqApp.uqs.JksWarehouse.Person;
+    constructor(uqApp: UqApp, role: Role) {
+        this.role = role;
+        this.uq = uqApp.uqs.BzWorkshop;
+        this.ID = uqApp.uqs.BzWorkshop.Person;
 
         this.state = proxy({
             currentItem: undefined,
@@ -40,12 +42,9 @@ export class UqPerson {
         this.initNO = await this.uq.IDNO({ ID: this.ID });
     }
 
-    //abstract isInRole(role: Role): boolean;
-
     async loadList(): Promise<MPerson[]> {
-        let result = await this.uq.GetPersonList.query({});
-        let { ret/*, roles: retRoles*/ } = result;
-        /*
+        let result = await this.uq.GetPersonList.query({ role: this.role });
+        let { ret, roles: retRoles } = result;
         let mPerson: MPerson;
         for (let row of ret) {
             let { id } = row;
@@ -53,13 +52,10 @@ export class UqPerson {
             for (let r of retRoles) {
                 let { person, role } = r;
                 if (person !== id) continue;
-                if (this.isInRole(role as Role) === true) {
-                    mPerson.role = role as Role;
-                    break;
-                }
+                if (role === this.role) continue;
+                mPerson.role = role as Role;
             }
         }
-        */
         return ret as MPerson[];
     }
 
@@ -75,8 +71,8 @@ export class UqPerson {
     }
 }
 
-export function useUqPerson() {
+export function useUqPerson(role: Role) {
     let app = useUqApp();
-    let ret = useRef(new UqPerson(app));
+    let ret = useRef(new UqPerson(app, role));
     return ret.current;
 };

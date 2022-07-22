@@ -1,15 +1,15 @@
 {
     "devs": {
-        "jks": {
-            "name": "jksoft",
-            "alias": "jks"
+        "bz": {
+            "name": "bizdev",
+            "alias": "bz"
         }
     },
     "uqs": [
         {
-            "dev": "jks",
-            "name": "warehouse",
-            "alias": "Warehouse"
+            "dev": "bz",
+            "name": "workshop",
+            "alias": "Workshop"
         }
     ]
 }

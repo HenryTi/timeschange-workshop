@@ -37,10 +37,10 @@ function DefaultBandTemplate(props: BandTemplateProps) {
     let band = useBand();
     let { label, children, errors, memos, onEdit, content, sep, contentType, rightIcon } = props;
     let labelContent = contentType === BandContentType.check ? null : <b>{label}</b>;
-    let vLabel = <label className="col-sm-2 col-form-label text-sm-end tonwa-bg-gray-1 border-end align-self-center">
+    let vLabel = <label className="col-sm-2 col-form-label text-sm-end tonwa-bg-gray-1 border-end align-self-center py-3">
         {labelContent}
     </label>;
-    let cnContent = 'col-sm-10 d-flex pe-0';
+    let cnContent = 'col-sm-10 d-flex pe-0 align-items-center';
     function RightIcon({ icon, onEdit }: { icon: JSX.Element; onEdit: () => Promise<void>; }) {
         return <div onClick={onEdit}
             className="px-3 align-self-stretch d-flex align-items-center cursor-pointer"
@@ -73,7 +73,7 @@ function DefaultBandTemplate(props: BandTemplateProps) {
             {vLabel}
             <div className={cnContent}>
                 <div className="flex-grow-1">
-                    {children}
+                    <div>{children}</div>
                     <BandFieldErrors errors={errors} />
                     <BandMemos memos={memos} />
                 </div>

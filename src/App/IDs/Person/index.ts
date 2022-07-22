@@ -1,2 +1,2 @@
-export * from './UqPerson';
-export * from './PersonLink';
+export * from './Client';
+export * from './Staff';

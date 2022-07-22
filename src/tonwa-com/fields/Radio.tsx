@@ -2,14 +2,10 @@ import { ChangeEvent, useEffect, useRef } from "react";
 import { Band, BandProps, useBand, useBandContainer } from '../band';
 import { FieldProps, FieldItem } from './field';
 import { useSnapshot } from "valtio";
-
-interface RadioItem {
-    label: string;
-    value: string | number | boolean;
-}
+import { OptionItem } from "../defines";
 
 type RadioInputProps = {
-    item: RadioItem;
+    item: OptionItem;
     itemIndex: number;
     defaultChecked: boolean;
 } & FieldProps;
@@ -68,7 +64,8 @@ function RadioInput({ name, className, readOnly, item, itemIndex, defaultChecked
 }
 
 interface RadioProps extends FieldProps {
-    options: RadioItem[];
+    options: OptionItem[];
+    children?: React.ReactNode;
 }
 
 export function Radio(props: RadioProps) {

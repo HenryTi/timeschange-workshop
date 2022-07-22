@@ -3,7 +3,7 @@ import { NavigateFunction } from "react-router-dom";
 import { AppConfig, AutoRefresh, UqAppBase, UqAppBaseView, UqAppContext } from "tonwa-uq-com";
 import { UqConfig } from 'tonwa-uq';
 import { UQs, uqsSchema } from "uqs";
-import { Role } from "uqs/JksWarehouse";
+import { Role } from "uqs/BzWorkshop";
 //import { AppRoutes } from './AppWithTabs';
 import { AppRoutes } from './AppWithPageStack';
 import uqconfigJson from '../uqconfig.json';
@@ -18,9 +18,9 @@ export class UqApp extends UqAppBase<UQs> {
     async init(initPage: React.ReactNode, navigateFunc: NavigateFunction): Promise<any> {
         await super.init(initPage, navigateFunc);
         if (this.uqs) {
-            //let poked = () => this.uqs.JksWarehouse.$poked.query(undefined, undefined, false);
+            //let poked = () => this.uqs.BzWorkshop.$poked.query(undefined, undefined, false);
             let autoLoader: Promise<any> = undefined;
-            this.autoRefresh = new AutoRefresh(this.uqs.JksWarehouse, autoLoader);
+            this.autoRefresh = new AutoRefresh(this.uqs.BzWorkshop, autoLoader);
             this.autoRefresh.start();
         }
     }
@@ -52,16 +52,16 @@ export class UqApp extends UqAppBase<UQs> {
 
     private async loadIsMeAdmin(): Promise<void> {
         if (this.meAdmin === undefined) {
-            this.meAdmin = await this.uqs.JksWarehouse.AdminIsMe();
+            this.meAdmin = await this.uqs.BzWorkshop.AdminIsMe();
         }
     }
 
     private async loadMeRoles(): Promise<void> {
         if (this.meRoles === undefined) {
-            let { JksWarehouse } = this.uqs;
-            let ret = await JksWarehouse.IX<{ ix: number; type: string; value: string; }>({
-                IX: JksWarehouse.IxUserPerson,
-                IX1: JksWarehouse.IxPersonRole,
+            let { BzWorkshop } = this.uqs;
+            let ret = await BzWorkshop.IX<{ ix: number; type: string; value: string; }>({
+                IX: BzWorkshop.IxUserPerson,
+                IX1: BzWorkshop.IxPersonRole,
                 ix: undefined,
             });
             this.meRoles = this.buildRoles(ret as any);
@@ -69,11 +69,11 @@ export class UqApp extends UqAppBase<UQs> {
     }
 
     private buildRoles(typeValues: { type: string; value: string }[]): Roles {
-        let { JksWarehouse } = this.uqs;
+        let { BzWorkshop } = this.uqs;
         let roles: Roles = {} as Roles;
         for (let row of typeValues) {
             let { type, value } = row;
-            let v = JksWarehouse.IDValue(type, value);
+            let v = BzWorkshop.IDValue(type, value);
             switch (type) {
                 case 'personrole':
                     let { person, role } = v as any;
@@ -87,7 +87,7 @@ export class UqApp extends UqAppBase<UQs> {
 
 const appConfig: AppConfig = {
     version: '0.1.0',
-    center: 'https://tv.jkchemical.com',
+    center: 'https://dev.tonwa.ca',
     debug: {
         center: 'localhost:3000',
         uq: 'localhost:3015',

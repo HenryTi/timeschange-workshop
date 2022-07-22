@@ -15,11 +15,9 @@ export interface MyRole {
 }
 
 export class UqSys {
-    private roleNames: string[];
     private readonly entities: { [name: string]: Entity } = {};
-    constructor(entities: { [name: string]: Entity }, roleNames: string[]) {
+    constructor(entities: { [name: string]: Entity }) {
         this.entities = entities;
-        this.roleNames = roleNames;
     }
 
     async Poked(): Promise<boolean> {

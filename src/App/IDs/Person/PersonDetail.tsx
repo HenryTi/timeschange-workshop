@@ -12,12 +12,14 @@ interface Props {
 
 export function PersonDetail({ person, fields, children, onPersonChanged }: Props) {
     let app = useUqApp();
-    let { JksWarehouse } = app.uqs;
+    let { BzWorkshop } = app.uqs;
     async function onValuesChanged(values: { name: string; value: any; preValue: any; }) {
         let { id } = person;
         let { name, value } = values;
-        await JksWarehouse.ActIDProp(JksWarehouse.Person, id, name, value);
-        onPersonChanged?.(person);
+        await BzWorkshop.ActIDProp(BzWorkshop.Person, id, name, value);
+        let newPerson = { ...person };
+        (newPerson as any)[name] = value;
+        onPersonChanged?.(newPerson);
     }
     return <FieldsDetail values={person} fields={fields} onValuesChanged={onValuesChanged}>
         {children}

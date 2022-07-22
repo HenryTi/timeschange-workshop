@@ -2,11 +2,7 @@ import { ChangeEvent, useEffect, useRef } from "react";
 import { Band, BandProps, useBand, useBandContainer } from '../band';
 import { FieldProps, FieldItem } from './field';
 import { EnumString, resStrings } from "../res";
-
-interface SelectItem {
-    label: string;
-    value: string | number | boolean;
-}
+import { OptionItem } from "../defines";
 
 class SelectFieldItem implements FieldItem {
     readonly name: string;
@@ -24,7 +20,7 @@ class SelectFieldItem implements FieldItem {
 }
 
 interface SelectProps extends FieldProps {
-    options: SelectItem[];
+    options: OptionItem[];
     placeholder?: string;
 }
 
