@@ -1,17 +1,18 @@
 import { useUqApp } from "App/UqApp";
 import { Band, BandRadio, FA, Page, Submit, useNav } from "tonwa-com";
 import { BandIDNOInput, FieldsForm, ListEditContext } from "tonwa-uq-com";
-import { Gender, Role } from "uqs/BzWorkshop";
+import { Gender } from "uqs/BzWorkshop";
+import { PersonLinkFace } from "./defines";
 
 interface Props {
-    caption: string;
-    role: Role;
+    face: PersonLinkFace;
     list: ListEditContext<any>;
 }
 
-export function ButtonAdd({ caption, role, list }: Props) {
+export function ButtonAdd({ face, list }: Props) {
     let nav = useNav();
     let app = useUqApp();
+    let { role, caption } = face;
     let { BzWorkshop } = app.uqs;
     let genderOptions = [
         { label: 'female', value: Gender.female },

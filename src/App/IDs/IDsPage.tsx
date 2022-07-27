@@ -1,15 +1,15 @@
+import { TagsAdminLink } from "App/Tags";
 import { Page } from "tonwa-com";
 import { StaffLink, ClientLink } from "./Person";
-/*
-import { ProductLink } from "./Product";
-import { ShipperLink } from "./Shipper";
-import { BinLink } from "./Bin";
-*/
+import { WorkshopLink } from "./Workshop";
+
 export function IDsPage() {
     return <Page header="Items">
         <div>
+            <WorkshopLink />
             <ClientLink />
             <StaffLink />
+            <TagsAdminLink />
         </div>
     </Page>;
 }

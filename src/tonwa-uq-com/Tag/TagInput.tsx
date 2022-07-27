@@ -13,7 +13,7 @@ interface Props {
     bottom?: JSX.Element;
 }
 
-export function TagInputBase(props: Props) {
+export function TagInput(props: Props) {
     let { uqTagProps, id, tagGroupName, className, BandTemplate, top, bottom } = props;
     let uqTag = useUqTag(uqTagProps);
     let [tg, setTg] = useState<[TagGroup, { [id: number]: boolean }]>(null);
@@ -134,9 +134,11 @@ function TagItemInput({ uqTag, tag, id, idTagValues, BandTemplate, sep }: TagIte
 function DefaultBandTemplate(props: BandTemplateProps) {
     let { label, children, sep } = props;
     let vLabel: any;
-    let cnContent = 'col-sm-10 d-flex pe-0';
+    let cnContent = 'col-sm-10 d-flex pe-0 align-items-center';
     if (label) {
-        vLabel = <label className="col-sm-2 col-form-label text-sm-end tonwa-bg-gray-1 border-end"><b>{label}</b></label>;
+        vLabel = <label className="col-sm-2 col-form-label text-sm-end tonwa-bg-gray-1 border-end py-3">
+            <b>{label}</b>
+        </label>;
     }
     else {
         cnContent += ' offset-sm-2';

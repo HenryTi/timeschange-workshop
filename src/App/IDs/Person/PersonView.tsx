@@ -1,16 +1,16 @@
 import { FA } from "tonwa-com";
 import { UserView } from "tonwa-uq-com";
-import { MPerson } from "./UqPerson";
+import { PersonLinkFace, MPerson } from "./defines";
 
 interface Props {
     value: MPerson;
-    icon: string;
-    iconClass: string;
+    face: PersonLinkFace;
     roleTitle?: JSX.Element;
 }
 
-export function PersonView({ value, icon, iconClass, roleTitle }: Props) {
+export function PersonView({ value, face, roleTitle }: Props) {
     let { no, name, firstName, lastName, middleName, user } = value;
+    let { icon, iconClass } = face;
     return <div className="px-3 py-2 d-flex" >
         <div className="me-3">
             <FA name={icon} className={iconClass} size="lg" />

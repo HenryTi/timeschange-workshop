@@ -1,16 +1,17 @@
 import { BandContainerContext, BandRadio, Detail, FA, LabelBand, Page, Sep, useNav } from "tonwa-com";
 import { IDListEdit, SelectUser, useIdListEdit, UserView } from "tonwa-uq-com";
-import { MPerson } from "../UqPerson";
+import { MPerson } from "../defines";
 import { PersonEdit } from "../PersonEdit";
-import { caption, icon, iconClass } from "./consts";
+import { faceProps } from "./faceProps";
 import { PageBoundUser } from "./PageBoundUser";
 import { Role } from "uqs/BzWorkshop";
 import { User } from "tonwa-uq";
 import { useState } from "react";
 import { useUqApp } from "App/UqApp";
-import { OptionItem } from "tonwa-com/defines";
+import { OptionItem } from "tonwa-com";
 import { ButtonAdd } from "../ButtonAdd";
 import { PersonView } from "../PersonView";
+import { ButtonDelete } from "../ButtonDelete";
 
 const roleOptions: OptionItem[] = [
     { label: <span>Counselor</span>, value: Role.counselor },
@@ -23,6 +24,7 @@ export function PageList({ items }: { items: MPerson[]; }) {
     let app = useUqApp();
     let { BzWorkshop } = app.uqs;
     let listEditContext = useIdListEdit<MPerson>(items);
+    let { caption } = faceProps;
     function onItemClick(item: MPerson) {
         function PageDetail() {
             let [user, setUser] = useState(item.user);
@@ -93,6 +95,7 @@ export function PageList({ items }: { items: MPerson[]; }) {
                 <Sep />
                 <Sep className="mt-3" />
                 <PersonEdit item={item} listEditContext={listEditContext} />
+                <ButtonDelete item={item} face={faceProps} listEditContext={listEditContext} />
             </Page>;
         }
         nav.open(<PageDetail />);
@@ -102,10 +105,10 @@ export function PageList({ items }: { items: MPerson[]; }) {
         let roleTitle: any;
         let label = roleOptions.find(v => v.value === role)?.label;
         if (label) roleTitle = <>{label}</>;
-        return <PersonView value={value} icon={icon} iconClass={iconClass}
+        return <PersonView value={value} face={faceProps}
             roleTitle={roleTitle} />;
     }
-    let buttonAdd = <ButtonAdd caption={caption} role={Role.staff} list={listEditContext} />;
+    let buttonAdd = <ButtonAdd face={faceProps} list={listEditContext} />;
     return <Page header={caption} right={buttonAdd}>
         <IDListEdit context={listEditContext} ItemView={ItemView} onItemClick={onItemClick} />
     </Page>;

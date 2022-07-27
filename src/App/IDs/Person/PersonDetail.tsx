@@ -1,7 +1,7 @@
 import { useUqApp } from "App/UqApp";
 import { FieldsDetail } from "tonwa-uq-com";
 import { Field } from "tonwa-uq";
-import { MPerson } from "./UqPerson";
+import { MPerson } from "./defines";
 
 interface Props {
     person: MPerson;

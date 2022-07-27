@@ -12,7 +12,7 @@ export function ForAdmin({ roles, children }: ForRoleProps) {
     let [isAdminOrRole, setIsAdminOrRole] = useState<boolean>(false);
     useEffect(() => {
         async function loadIsAdminOrRole() {
-            let ret = await app.getIsAdminOrRole(roles);
+            let ret = await app.isAdminOrRole(roles);
             setIsAdminOrRole(ret);
         }
         loadIsAdminOrRole();
@@ -26,7 +26,7 @@ export function ForRole({ roles, children }: ForRoleProps) {
     let [isRole, setIsRole] = useState<boolean>(undefined);
     useEffect(() => {
         async function loadIsAdminOrRole() {
-            let ret = await app.getIsRole(roles);
+            let ret = await app.isRole(roles);
             setIsRole(ret);
         }
         loadIsAdminOrRole();

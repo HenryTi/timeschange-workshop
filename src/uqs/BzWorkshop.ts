@@ -1,4 +1,4 @@
-//=== UqApp builder created on Tue Jul 19 2022 10:42:12 GMT-0400 (北美东部夏令时间) ===//
+//=== UqApp builder created on Sat Jul 23 2022 14:38:49 GMT-0400 (北美东部夏令时间) ===//
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { IDXValue, Uq, UqQuery, UqAction, UqID, UqIX } from "tonwa-uq";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -22,17 +22,38 @@ export interface IX {
     xi: number;
 }
 
+export interface Param$role_My {
+}
+export interface Return$role_MyAdmins {
+	id: number;
+	unit: number;
+	user: number;
+	admin: number;
+	entity: string;
+}
+export interface Return$role_MyRoles {
+	id: number;
+	unit: number;
+	user: number;
+	role: string;
+	entity: string;
+}
+export interface Result$role_My {
+	admins: Return$role_MyAdmins[];
+	roles: Return$role_MyRoles[];
+}
+
 export interface Param$poked {
 }
 export interface Return$pokedRet {
-    poke: number;
+	poke: number;
 }
 export interface Result$poked {
-    ret: Return$pokedRet[];
+	ret: Return$pokedRet[];
 }
 
 export interface Param$setMyTimezone {
-    _timezone: number;
+	_timezone: number;
 }
 export interface Result$setMyTimezone {
 }
@@ -40,370 +61,252 @@ export interface Result$setMyTimezone {
 export interface Param$getUnitTime {
 }
 export interface Return$getUnitTimeRet {
-    timezone: number;
-    unitTimeZone: number;
-    unitBizMonth: number;
-    unitBizDate: number;
+	timezone: number;
+	unitTimeZone: number;
+	unitBizMonth: number;
+	unitBizDate: number;
 }
 export interface Result$getUnitTime {
-    ret: Return$getUnitTimeRet[];
+	ret: Return$getUnitTimeRet[];
 }
 
 export interface Draft extends ID {
-    entity: number;
-    content: string;
+	entity: number;
+	content: string;
 }
 
 export interface DraftInActs extends ID {
-    ID?: UqID<any>;
-    entity: number;
-    content: string;
+	ID?: UqID<any>;
+	entity: number;
+	content: string;
 }
 
 export interface IxDraft extends IX {
 }
 
-export enum EnumOpType {
-    a = 1,
-    b = 2
-}
-
-export interface Biz extends ID {
-    value: number;
-    stamp: any;
-}
-
-export interface BizInActs extends ID {
-    ID?: UqID<any>;
-    value: number;
-    stamp: any;
-}
-
-export interface BizPack extends ID {
-    stamp: any;
-}
-
-export interface BizPackInActs extends ID {
-    ID?: UqID<any>;
-    stamp: any;
-}
-
-export interface IxBizPack extends IX {
-}
-
-export interface Op extends ID {
-    biz: number;
-    type: any;
-    value: number;
-    stamp: any;
-}
-
-export interface OpInActs extends ID {
-    ID?: UqID<any>;
-    biz: number | ID;
-    type: any;
-    value: number;
-    stamp: any;
-}
-
-export interface Item extends ID {
-}
-
-export interface ItemInActs extends ID {
-    ID?: UqID<any>;
-}
-
-export interface OpiBooking extends ID {
-    opType: any;
-    post: number;
-    postItem: number;
-    item: number;
-    ratio: number;
-    start: any;
-    span: number;
-    ratioInit: number;
-    memo: number;
-}
-
-export interface OpiBookingInActs extends ID {
-    ID?: UqID<any>;
-    opType: any;
-    post: number | ID;
-    postItem: number | ID;
-    item: number | ID;
-    ratio: number;
-    start: any;
-    span: number;
-    ratioInit: number;
-    memo: number;
-}
-
-export interface Opi extends ID {
-    object: number;
-    post: number;
-    item: number;
-}
-
-export interface OpiInActs extends ID {
-    ID?: UqID<any>;
-    object: number | ID;
-    post: number | ID;
-    item: number | ID;
-}
-
-export interface ItemHistory extends ID {
-    op: number;
-    item: number;
-    value: number;
-}
-
-export interface ItemHistoryInActs extends ID {
-    ID?: UqID<any>;
-    op: number | ID;
-    item: number | ID;
-    value: number;
-}
-
-export interface OpiHistory extends ID {
-    opi: number;
-    itemHistory: number;
-    value: number;
-    booking: number;
-}
-
-export interface OpiHistoryInActs extends ID {
-    ID?: UqID<any>;
-    opi: number | ID;
-    itemHistory: number | ID;
-    value: number;
-    booking: number | ID;
-}
-
-export interface IxOpiDate extends IX {
-    value: number;
-    rows: number;
-    p0: number;
-    p1: number;
-}
-
 export interface Note extends ID {
-    staff: number;
-    client: number;
-    note: string;
-    sensitive: number;
+	staff: number;
+	client: number;
+	note: string;
+	sensitive: number;
 }
 
 export interface NoteInActs extends ID {
-    ID?: UqID<any>;
-    staff: number | ID;
-    client: number | ID;
-    note: string;
-    sensitive: number;
+	ID?: UqID<any>;
+	staff: number | PersonInActs;
+	client: number | PersonInActs;
+	note: string;
+	sensitive: number;
 }
 
 export interface IxStaffClient extends IX {
-    tick: number;
+	tick: number;
 }
 
 export interface ParamSaveNote {
-    id: number;
-    staff: number;
-    client: number;
-    note: string;
-    sensitive: number;
+	id: number;
+	staff: number;
+	client: number;
+	note: string;
+	sensitive: number;
 }
 export interface ReturnSaveNoteRet {
-    id: number;
+	id: number;
 }
 export interface ResultSaveNote {
-    ret: ReturnSaveNoteRet[];
+	ret: ReturnSaveNoteRet[];
 }
 
 export interface ParamMyClients {
 }
 export interface ReturnMyClientsRet {
-    id: number;
-    no: string;
-    name: string;
-    vice: string;
-    firstName: string;
-    lastName: string;
-    middleName: string;
-    gender: any;
-    year: number;
-    month: number;
-    day: number;
-    email: string;
-    mobile: string;
-    mobileCountry: string;
+	id: number;
+	no: string;
+	name: string;
+	vice: string;
+	firstName: string;
+	lastName: string;
+	middleName: string;
+	gender: any;
+	year: number;
+	month: number;
+	day: number;
+	email: string;
+	mobile: string;
+	mobileCountry: string;
 }
 export interface ResultMyClients {
-    ret: ReturnMyClientsRet[];
+	ret: ReturnMyClientsRet[];
 }
 
 export enum Gender {
-    female = 0,
-    male = 1
+	female = 0,
+	male = 1
 }
 
 export interface Person extends ID {
-    no?: string;
-    name: string;
-    vice: string;
-    firstName: string;
-    lastName: string;
-    middleName: string;
-    gender: any;
-    year: number;
-    month: number;
-    day: number;
-    email: string;
-    mobile: string;
-    mobileCountry: string;
+	no?: string;
+	name: string;
+	vice: string;
+	firstName: string;
+	lastName: string;
+	middleName: string;
+	gender: any;
+	year: number;
+	month: number;
+	day: number;
+	email: string;
+	mobile: string;
+	mobileCountry: string;
 }
 
 export interface PersonInActs extends ID {
-    ID?: UqID<any>;
-    no?: string;
-    name: string;
-    vice: string;
-    firstName: string;
-    lastName: string;
-    middleName: string;
-    gender: any;
-    year: number;
-    month: number;
-    day: number;
-    email: string;
-    mobile: string;
-    mobileCountry: string;
+	ID?: UqID<any>;
+	no?: string;
+	name: string;
+	vice: string;
+	firstName: string;
+	lastName: string;
+	middleName: string;
+	gender: any;
+	year: number;
+	month: number;
+	day: number;
+	email: string;
+	mobile: string;
+	mobileCountry: string;
 }
 
 export interface IxPersonLog extends IX {
 }
 
 export interface ClientSurvey extends ID {
-    client: number;
+	client: number;
 }
 
 export interface ClientSurveyInActs extends ID {
-    ID?: UqID<any>;
-    client: number | ID;
+	ID?: UqID<any>;
+	client: number | ID;
 }
 
 export interface ParamGetPersonList {
-    role: any;
+	role: any;
 }
 export interface ReturnGetPersonListRet {
-    id: number;
-    no: string;
-    name: string;
-    vice: string;
-    firstName: string;
-    lastName: string;
-    middleName: string;
-    gender: any;
-    year: number;
-    month: number;
-    day: number;
-    email: string;
-    mobile: string;
-    mobileCountry: string;
-    user: number;
+	id: number;
+	no: string;
+	name: string;
+	vice: string;
+	firstName: string;
+	lastName: string;
+	middleName: string;
+	gender: any;
+	year: number;
+	month: number;
+	day: number;
+	email: string;
+	mobile: string;
+	mobileCountry: string;
+	user: number;
 }
 export interface ReturnGetPersonListRoles {
-    person: number;
-    role: any;
+	person: number;
+	role: any;
 }
 export interface ResultGetPersonList {
-    ret: ReturnGetPersonListRet[];
-    roles: ReturnGetPersonListRoles[];
+	ret: ReturnGetPersonListRet[];
+	roles: ReturnGetPersonListRoles[];
 }
 
 export interface ParamPersonSearch {
-    role: any;
-    key: string;
+	role: any;
+	key: string;
 }
 export interface ReturnPersonSearchRet {
-    id: number;
-    no: string;
-    name: string;
-    vice: string;
-    firstName: string;
-    lastName: string;
-    middleName: string;
-    gender: any;
-    year: number;
-    month: number;
-    day: number;
-    email: string;
-    mobile: string;
-    mobileCountry: string;
+	id: number;
+	no: string;
+	name: string;
+	vice: string;
+	firstName: string;
+	lastName: string;
+	middleName: string;
+	gender: any;
+	year: number;
+	month: number;
+	day: number;
+	email: string;
+	mobile: string;
+	mobileCountry: string;
 }
 export interface ResultPersonSearch {
-    ret: ReturnPersonSearchRet[];
+	ret: ReturnPersonSearchRet[];
 }
 
 export interface ParamGetPersonLog {
-    person: number;
+	person: number;
 }
 export interface ReturnGetPersonLogRet {
-    log: number;
-    type: string;
-    value: string;
+	log: number;
+	type: string;
+	value: string;
 }
 export interface ResultGetPersonLog {
-    ret: ReturnGetPersonLogRet[];
+	ret: ReturnGetPersonLogRet[];
+}
+
+export const TagGroupNames = {
+	staff: "staff-tags",
+	client: "client-tags",
+	workshop: "workshop-tags",
+	donator: "donator-tags",
+	note: "note-tags"
 }
 
 export interface TagGroup extends ID {
-    name: string;
+	name: string;
 }
 
 export interface TagGroupInActs extends ID {
-    ID?: UqID<any>;
-    name: string;
+	ID?: UqID<any>;
+	name: string;
 }
 
 export interface Tag extends ID {
-    name: string;
-    vice: string;
-    single: number;
+	name: string;
+	vice: string;
+	single: number;
 }
 
 export interface TagInActs extends ID {
-    ID?: UqID<any>;
-    name: string;
-    vice: string;
-    single: number;
+	ID?: UqID<any>;
+	name: string;
+	vice: string;
+	single: number;
 }
 
 export interface TagItem extends ID {
-    name: string;
+	name: string;
 }
 
 export interface TagItemInActs extends ID {
-    ID?: UqID<any>;
-    name: string;
+	ID?: UqID<any>;
+	name: string;
 }
 
 export interface IxTag extends IX {
 }
 
-export interface IxLocalIdTag extends IX {
-}
-
-export interface IxGlobalIdTag extends IX {
+export interface IxIdTag extends IX {
 }
 
 export enum Role {
-    staff = 10,
-    counselor = 11,
-    volunteer = 12,
-    board = 13,
-    support = 14,
-    client = 20,
-    donator = 30
+	staff = 10,
+	counselor = 11,
+	volunteer = 12,
+	board = 13,
+	support = 14,
+	client = 20,
+	donator = 30
 }
 
 export interface IxUserPerson extends IX {
@@ -413,86 +316,86 @@ export interface IxPersonRole extends IX {
 }
 
 export interface Workshop extends ID {
-    no?: string;
-    name: string;
-    vice: string;
-    staff: number;
+	no?: string;
+	name: string;
+	vice: string;
+	staff: number;
 }
 
 export interface WorkshopInActs extends ID {
-    ID?: UqID<any>;
-    no?: string;
-    name: string;
-    vice: string;
-    staff: number | ID;
+	ID?: UqID<any>;
+	no?: string;
+	name: string;
+	vice: string;
+	staff: number | PersonInActs;
 }
 
 export interface Session extends ID {
-    workshop: number;
-    date: any;
-    vice: string;
-    time: any;
-    span: number;
+	workshop: number;
+	date: any;
+	vice: string;
+	time: any;
+	span: number;
 }
 
 export interface SessionInActs extends ID {
-    ID?: UqID<any>;
-    workshop: number | ID;
-    date: any;
-    vice: string;
-    time: any;
-    span: number;
+	ID?: UqID<any>;
+	workshop: number | WorkshopInActs;
+	date: any;
+	vice: string;
+	time: any;
+	span: number;
 }
 
 export interface SessionPerson extends ID {
-    session: number;
-    person: number;
-    workshop: number;
-    deleted: number;
+	session: number;
+	person: number;
+	workshop: number;
+	deleted: number;
 }
 
 export interface SessionPersonInActs extends ID {
-    ID?: UqID<any>;
-    session: number | ID;
-    person: number | ID;
-    workshop: number | ID;
-    deleted: number;
+	ID?: UqID<any>;
+	session: number | SessionInActs;
+	person: number | PersonInActs;
+	workshop: number | WorkshopInActs;
+	deleted: number;
 }
 
 export interface IxWorkshopSession extends IX {
 }
 
 export interface IxSessionStaff extends IX {
-    own: number;
-    substitue: number;
-    done: number;
+	own: number;
+	substitue: number;
+	done: number;
 }
 
 export interface IxSessionClient extends IX {
-    deleted: number;
+	deleted: number;
 }
 
 export interface ParamSetSessionStaff {
-    session: number;
-    staff: number;
-    own: number;
-    substitue: number;
-    done: number;
+	session: number;
+	staff: number;
+	own: number;
+	substitue: number;
+	done: number;
 }
 export interface ResultSetSessionStaff {
 }
 
 export interface ParamSaveWorkshopStaff {
-    id: number;
-    staff: number;
+	id: number;
+	staff: number;
 }
 export interface ResultSaveWorkshopStaff {
 }
 
 export interface ParamSaveSessionAttendee {
-    session: number;
-    client: number;
-    deleted: number;
+	session: number;
+	client: number;
+	deleted: number;
 }
 export interface ResultSaveSessionAttendee {
 }
@@ -500,108 +403,149 @@ export interface ResultSaveSessionAttendee {
 export interface ParamMySessions {
 }
 export interface ReturnMySessionsRet {
-    id: number;
-    workshop: number;
-    date: any;
-    vice: string;
-    time: any;
-    span: number;
-    own: number;
-    substitue: number;
-    done: number;
+	id: number;
+	workshop: number;
+	date: any;
+	vice: string;
+	time: any;
+	span: number;
+	own: number;
+	substitue: number;
+	done: number;
 }
 export interface ResultMySessions {
-    ret: ReturnMySessionsRet[];
+	ret: ReturnMySessionsRet[];
 }
 
 export interface ParamActs {
-    draft?: DraftInActs[];
-    ixDraft?: IxDraft[];
-    biz?: BizInActs[];
-    bizPack?: BizPackInActs[];
-    ixBizPack?: IxBizPack[];
-    op?: OpInActs[];
-    item?: ItemInActs[];
-    opiBooking?: OpiBookingInActs[];
-    opi?: OpiInActs[];
-    itemHistory?: ItemHistoryInActs[];
-    opiHistory?: OpiHistoryInActs[];
-    ixOpiDate?: IxOpiDate[];
-    note?: NoteInActs[];
-    ixStaffClient?: IxStaffClient[];
-    person?: PersonInActs[];
-    ixPersonLog?: IxPersonLog[];
-    clientSurvey?: ClientSurveyInActs[];
-    tagGroup?: TagGroupInActs[];
-    tag?: TagInActs[];
-    tagItem?: TagItemInActs[];
-    ixTag?: IxTag[];
-    ixLocalIdTag?: IxLocalIdTag[];
-    ixGlobalIdTag?: IxGlobalIdTag[];
-    ixUserPerson?: IxUserPerson[];
-    ixPersonRole?: IxPersonRole[];
-    workshop?: WorkshopInActs[];
-    session?: SessionInActs[];
-    sessionPerson?: SessionPersonInActs[];
-    ixWorkshopSession?: IxWorkshopSession[];
-    ixSessionStaff?: IxSessionStaff[];
-    ixSessionClient?: IxSessionClient[];
+	draft?: DraftInActs[];
+	ixDraft?: IxDraft[];
+	note?: NoteInActs[];
+	ixStaffClient?: IxStaffClient[];
+	person?: PersonInActs[];
+	ixPersonLog?: IxPersonLog[];
+	clientSurvey?: ClientSurveyInActs[];
+	tagGroup?: TagGroupInActs[];
+	tag?: TagInActs[];
+	tagItem?: TagItemInActs[];
+	ixTag?: IxTag[];
+	ixIdTag?: IxIdTag[];
+	ixUserPerson?: IxUserPerson[];
+	ixPersonRole?: IxPersonRole[];
+	workshop?: WorkshopInActs[];
+	session?: SessionInActs[];
+	sessionPerson?: SessionPersonInActs[];
+	ixWorkshopSession?: IxWorkshopSession[];
+	ixSessionStaff?: IxSessionStaff[];
+	ixSessionClient?: IxSessionClient[];
 }
 
 
 export interface UqExt extends Uq {
-    Acts(param: ParamActs): Promise<any>;
-    SQL: Uq;
-    IDRender(id: number): JSX.Element;
-    IDLocalRender(id: number): JSX.Element;
+	Acts(param:ParamActs): Promise<any>;
+	SQL: Uq;
+	IDRender(id:number):JSX.Element;
+	IDLocalRender(id:number):JSX.Element;
 
-    $poked: UqQuery<Param$poked, Result$poked>;
-    $setMyTimezone: UqAction<Param$setMyTimezone, Result$setMyTimezone>;
-    $getUnitTime: UqQuery<Param$getUnitTime, Result$getUnitTime>;
-    Draft: UqID<any>;
-    IxDraft: UqIX<any>;
-    Biz: UqID<any>;
-    BizPack: UqID<any>;
-    IxBizPack: UqIX<any>;
-    Op: UqID<any>;
-    Item: UqID<any>;
-    OpiBooking: UqID<any>;
-    Opi: UqID<any>;
-    ItemHistory: UqID<any>;
-    OpiHistory: UqID<any>;
-    IxOpiDate: UqIX<any>;
-    Note: UqID<any>;
-    IxStaffClient: UqIX<any>;
-    SaveNote: UqAction<ParamSaveNote, ResultSaveNote>;
-    MyClients: UqQuery<ParamMyClients, ResultMyClients>;
-    Person: UqID<any>;
-    IxPersonLog: UqIX<any>;
-    ClientSurvey: UqID<any>;
-    GetPersonList: UqQuery<ParamGetPersonList, ResultGetPersonList>;
-    PersonSearch: UqQuery<ParamPersonSearch, ResultPersonSearch>;
-    GetPersonLog: UqQuery<ParamGetPersonLog, ResultGetPersonLog>;
-    TagGroup: UqID<any>;
-    Tag: UqID<any>;
-    TagItem: UqID<any>;
-    IxTag: UqIX<any>;
-    IxLocalIdTag: UqIX<any>;
-    IxGlobalIdTag: UqIX<any>;
-    IxUserPerson: UqIX<any>;
-    IxPersonRole: UqIX<any>;
-    Workshop: UqID<any>;
-    Session: UqID<any>;
-    SessionPerson: UqID<any>;
-    IxWorkshopSession: UqIX<any>;
-    IxSessionStaff: UqIX<any>;
-    IxSessionClient: UqIX<any>;
-    SetSessionStaff: UqAction<ParamSetSessionStaff, ResultSetSessionStaff>;
-    SaveWorkshopStaff: UqAction<ParamSaveWorkshopStaff, ResultSaveWorkshopStaff>;
-    SaveSessionAttendee: UqAction<ParamSaveSessionAttendee, ResultSaveSessionAttendee>;
-    MySessions: UqQuery<ParamMySessions, ResultMySessions>;
+	$role_My: UqQuery<Param$role_My, Result$role_My>;
+	$poked: UqQuery<Param$poked, Result$poked>;
+	$setMyTimezone: UqAction<Param$setMyTimezone, Result$setMyTimezone>;
+	$getUnitTime: UqQuery<Param$getUnitTime, Result$getUnitTime>;
+	Draft: UqID<any>;
+	IxDraft: UqIX<any>;
+	Note: UqID<any>;
+	IxStaffClient: UqIX<any>;
+	SaveNote: UqAction<ParamSaveNote, ResultSaveNote>;
+	MyClients: UqQuery<ParamMyClients, ResultMyClients>;
+	Person: UqID<any>;
+	IxPersonLog: UqIX<any>;
+	ClientSurvey: UqID<any>;
+	GetPersonList: UqQuery<ParamGetPersonList, ResultGetPersonList>;
+	PersonSearch: UqQuery<ParamPersonSearch, ResultPersonSearch>;
+	GetPersonLog: UqQuery<ParamGetPersonLog, ResultGetPersonLog>;
+	TagGroup: UqID<any>;
+	Tag: UqID<any>;
+	TagItem: UqID<any>;
+	IxTag: UqIX<any>;
+	IxIdTag: UqIX<any>;
+	IxUserPerson: UqIX<any>;
+	IxPersonRole: UqIX<any>;
+	Workshop: UqID<any>;
+	Session: UqID<any>;
+	SessionPerson: UqID<any>;
+	IxWorkshopSession: UqIX<any>;
+	IxSessionStaff: UqIX<any>;
+	IxSessionClient: UqIX<any>;
+	SetSessionStaff: UqAction<ParamSetSessionStaff, ResultSetSessionStaff>;
+	SaveWorkshopStaff: UqAction<ParamSaveWorkshopStaff, ResultSaveWorkshopStaff>;
+	SaveSessionAttendee: UqAction<ParamSaveSessionAttendee, ResultSaveSessionAttendee>;
+	MySessions: UqQuery<ParamMySessions, ResultMySessions>;
 }
 
 
-export const uqSchema = {
+export const uqSchema={
+    "$role_my": {
+        "name": "$role_my",
+        "type": "query",
+        "private": false,
+        "sys": true,
+        "fields": [] as any,
+        "returns": [
+            {
+                "name": "admins",
+                "fields": [
+                    {
+                        "name": "id",
+                        "type": "id"
+                    },
+                    {
+                        "name": "unit",
+                        "type": "id"
+                    },
+                    {
+                        "name": "user",
+                        "type": "id"
+                    },
+                    {
+                        "name": "admin",
+                        "type": "tinyint"
+                    },
+                    {
+                        "name": "entity",
+                        "type": "char",
+                        "size": 100
+                    }
+                ]
+            },
+            {
+                "name": "roles",
+                "fields": [
+                    {
+                        "name": "id",
+                        "type": "id"
+                    },
+                    {
+                        "name": "unit",
+                        "type": "id"
+                    },
+                    {
+                        "name": "user",
+                        "type": "id"
+                    },
+                    {
+                        "name": "role",
+                        "type": "char",
+                        "size": 100
+                    },
+                    {
+                        "name": "entity",
+                        "type": "char",
+                        "size": 100
+                    }
+                ]
+            }
+        ]
+    },
     "$poked": {
         "name": "$poked",
         "type": "query",
@@ -706,361 +650,6 @@ export const uqSchema = {
         "ixx": false,
         "xiType": 0
     },
-    "enumoptype": {
-        "name": "EnumOpType",
-        "type": "enum",
-        "private": true,
-        "sys": true,
-        "values": {
-            "a": 1,
-            "b": 2
-        }
-    },
-    "biz": {
-        "name": "Biz",
-        "type": "id",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "id",
-                "type": "id",
-                "null": false
-            },
-            {
-                "name": "value",
-                "type": "dec",
-                "scale": 4,
-                "precision": 18
-            },
-            {
-                "name": "stamp",
-                "type": "timestamp"
-            }
-        ],
-        "keys": [] as any,
-        "create": true,
-        "global": false,
-        "idType": 3
-    },
-    "bizpack": {
-        "name": "BizPack",
-        "type": "id",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "id",
-                "type": "id",
-                "null": false
-            },
-            {
-                "name": "stamp",
-                "type": "timestamp"
-            }
-        ],
-        "keys": [] as any,
-        "create": true,
-        "global": false,
-        "idType": 3
-    },
-    "ixbizpack": {
-        "name": "IxBizPack",
-        "type": "ix",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "ix",
-                "type": "id",
-                "tuid": "$nu"
-            },
-            {
-                "name": "xi",
-                "type": "id",
-                "tuid": "$nu"
-            }
-        ],
-        "ixxx": false,
-        "ixx": false,
-        "xiType": 0
-    },
-    "op": {
-        "name": "Op",
-        "type": "id",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "id",
-                "type": "id",
-                "null": false
-            },
-            {
-                "name": "biz",
-                "type": "id"
-            },
-            {
-                "name": "type",
-                "type": "enum"
-            },
-            {
-                "name": "value",
-                "type": "dec",
-                "scale": 4,
-                "precision": 18
-            },
-            {
-                "name": "stamp",
-                "type": "timestamp"
-            }
-        ],
-        "keys": [] as any,
-        "create": true,
-        "global": false,
-        "idType": 3
-    },
-    "item": {
-        "name": "Item",
-        "type": "id",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "id",
-                "type": "id",
-                "null": false
-            }
-        ],
-        "keys": [] as any,
-        "global": false,
-        "idType": 3
-    },
-    "opibooking": {
-        "name": "OpiBooking",
-        "type": "id",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "id",
-                "type": "id",
-                "null": false
-            },
-            {
-                "name": "opType",
-                "type": "enum"
-            },
-            {
-                "name": "post",
-                "type": "id"
-            },
-            {
-                "name": "postItem",
-                "type": "id"
-            },
-            {
-                "name": "item",
-                "type": "id"
-            },
-            {
-                "name": "ratio",
-                "type": "dec",
-                "scale": 2,
-                "precision": 6
-            },
-            {
-                "name": "start",
-                "type": "date"
-            },
-            {
-                "name": "span",
-                "type": "smallint"
-            },
-            {
-                "name": "ratioInit",
-                "type": "dec",
-                "scale": 2,
-                "precision": 6
-            },
-            {
-                "name": "memo",
-                "type": "int"
-            }
-        ],
-        "keys": [
-            {
-                "name": "opType",
-                "type": "enum"
-            },
-            {
-                "name": "post",
-                "type": "id"
-            },
-            {
-                "name": "postItem",
-                "type": "id"
-            },
-            {
-                "name": "item",
-                "type": "id"
-            }
-        ],
-        "global": false,
-        "idType": 3
-    },
-    "opi": {
-        "name": "Opi",
-        "type": "id",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "id",
-                "type": "id",
-                "null": false
-            },
-            {
-                "name": "object",
-                "type": "id"
-            },
-            {
-                "name": "post",
-                "type": "id"
-            },
-            {
-                "name": "item",
-                "type": "id"
-            }
-        ],
-        "keys": [
-            {
-                "name": "object",
-                "type": "id"
-            },
-            {
-                "name": "post",
-                "type": "id"
-            },
-            {
-                "name": "item",
-                "type": "id"
-            }
-        ],
-        "global": false,
-        "idType": 3
-    },
-    "itemhistory": {
-        "name": "ItemHistory",
-        "type": "id",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "id",
-                "type": "id",
-                "null": false
-            },
-            {
-                "name": "op",
-                "type": "id"
-            },
-            {
-                "name": "item",
-                "type": "id"
-            },
-            {
-                "name": "value",
-                "type": "dec",
-                "scale": 4,
-                "precision": 18
-            }
-        ],
-        "keys": [
-            {
-                "name": "op",
-                "type": "id"
-            },
-            {
-                "name": "item",
-                "type": "id"
-            }
-        ],
-        "global": false,
-        "idType": 4
-    },
-    "opihistory": {
-        "name": "OpiHistory",
-        "type": "id",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "id",
-                "type": "id",
-                "null": false
-            },
-            {
-                "name": "opi",
-                "type": "id"
-            },
-            {
-                "name": "itemHistory",
-                "type": "id"
-            },
-            {
-                "name": "value",
-                "type": "dec",
-                "scale": 4,
-                "precision": 18
-            },
-            {
-                "name": "booking",
-                "type": "id"
-            }
-        ],
-        "keys": [] as any,
-        "global": false,
-        "idType": 4
-    },
-    "ixopidate": {
-        "name": "IxOpiDate",
-        "type": "ix",
-        "private": true,
-        "sys": true,
-        "fields": [
-            {
-                "name": "value",
-                "type": "dec",
-                "scale": 4,
-                "precision": 18
-            },
-            {
-                "name": "rows",
-                "type": "int"
-            },
-            {
-                "name": "p0",
-                "type": "id"
-            },
-            {
-                "name": "p1",
-                "type": "id"
-            },
-            {
-                "name": "ix",
-                "type": "id",
-                "tuid": "$nu"
-            },
-            {
-                "name": "xi",
-                "type": "date"
-            }
-        ],
-        "ixxx": false,
-        "ixx": false,
-        "xiType": 0
-    },
     "note": {
         "name": "Note",
         "type": "id",
@@ -1074,11 +663,15 @@ export const uqSchema = {
             },
             {
                 "name": "staff",
-                "type": "id"
+                "type": "id",
+                "ID": "person",
+                "tuid": "person"
             },
             {
                 "name": "client",
-                "type": "id"
+                "type": "id",
+                "ID": "person",
+                "tuid": "person"
             },
             {
                 "name": "note",
@@ -1106,11 +699,13 @@ export const uqSchema = {
             {
                 "name": "ix",
                 "type": "id",
+                "ID": "$uu",
                 "tuid": "$uu"
             },
             {
                 "name": "xi",
                 "type": "id",
+                "ID": "$uu",
                 "tuid": "$uu"
             }
         ],
@@ -1131,11 +726,15 @@ export const uqSchema = {
             },
             {
                 "name": "staff",
-                "type": "id"
+                "type": "id",
+                "ID": "person",
+                "tuid": "person"
             },
             {
                 "name": "client",
-                "type": "id"
+                "type": "id",
+                "ID": "person",
+                "tuid": "person"
             },
             {
                 "name": "note",
@@ -1152,7 +751,9 @@ export const uqSchema = {
                 "fields": [
                     {
                         "name": "id",
-                        "type": "id"
+                        "type": "id",
+                        "ID": "note",
+                        "tuid": "note"
                     }
                 ]
             }
@@ -1345,11 +946,13 @@ export const uqSchema = {
             {
                 "name": "ix",
                 "type": "id",
+                "ID": "$uu",
                 "tuid": "$uu"
             },
             {
                 "name": "xi",
                 "type": "id",
+                "ID": "$uid",
                 "tuid": "$uid"
             }
         ],
@@ -1601,6 +1204,20 @@ export const uqSchema = {
             }
         ]
     },
+    "taggroupnames": {
+        "name": "TagGroupNames",
+        "type": "const",
+        "private": false,
+        "sys": true,
+        "fields": [] as any,
+        "values": {
+            "staff": "staff-tags",
+            "client": "client-tags",
+            "workshop": "workshop-tags",
+            "donator": "donator-tags",
+            "note": "note-tags"
+        }
+    },
     "taggroup": {
         "name": "TagGroup",
         "type": "id",
@@ -1631,7 +1248,7 @@ export const uqSchema = {
         "create": true,
         "update": true,
         "global": false,
-        "idType": 12
+        "idType": 3
     },
     "tag": {
         "name": "Tag",
@@ -1726,27 +1343,8 @@ export const uqSchema = {
         "ixx": false,
         "xiType": 0
     },
-    "ixlocalidtag": {
-        "name": "IxLocalIdTag",
-        "type": "ix",
-        "private": false,
-        "sys": true,
-        "fields": [
-            {
-                "name": "ix",
-                "type": "id"
-            },
-            {
-                "name": "xi",
-                "type": "id"
-            }
-        ],
-        "ixxx": false,
-        "ixx": false,
-        "xiType": 0
-    },
-    "ixglobalidtag": {
-        "name": "IxGlobalIdTag",
+    "ixidtag": {
+        "name": "IxIdTag",
         "type": "ix",
         "private": false,
         "sys": true,
@@ -1774,6 +1372,7 @@ export const uqSchema = {
             "counselor": 11,
             "volunteer": 12,
             "board": 13,
+            "support": 14,
             "client": 20,
             "donator": 30
         }
@@ -1787,11 +1386,13 @@ export const uqSchema = {
             {
                 "name": "ix",
                 "type": "id",
+                "ID": "$user",
                 "tuid": "$user"
             },
             {
                 "name": "xi",
                 "type": "id",
+                "ID": "$uu",
                 "tuid": "$uu"
             }
         ],
@@ -1808,6 +1409,7 @@ export const uqSchema = {
             {
                 "name": "ix",
                 "type": "id",
+                "ID": "$uu",
                 "tuid": "$uu"
             },
             {
@@ -1818,225 +1420,6 @@ export const uqSchema = {
         "ixxx": false,
         "ixx": false,
         "xiType": 0
-    },
-    "b": {
-        "name": "B",
-        "type": "bus",
-        "private": true,
-        "sys": true,
-        "version": 6,
-        "busOwner": "$$$",
-        "busName": "test",
-        "schema": {
-            "query1": {
-                "param": [
-                    {
-                        "name": "p1",
-                        "type": "string"
-                    },
-                    {
-                        "name": "p2",
-                        "type": "number"
-                    },
-                    {
-                        "name": "p3",
-                        "type": "id"
-                    },
-                    {
-                        "name": "p4",
-                        "type": "array",
-                        "fields": [
-                            {
-                                "name": "a1",
-                                "type": "string"
-                            },
-                            {
-                                "name": "a2",
-                                "type": "number"
-                            },
-                            {
-                                "name": "a3",
-                                "type": "number"
-                            },
-                            {
-                                "name": "a4",
-                                "type": "id"
-                            }
-                        ]
-                    }
-                ],
-                "returns": {
-                    "fields": [
-                        {
-                            "name": "c1",
-                            "type": "string"
-                        },
-                        {
-                            "name": "c3",
-                            "type": "string"
-                        },
-                        {
-                            "name": "bbba37",
-                            "type": "string"
-                        }
-                    ],
-                    "arrs": [
-                        {
-                            "name": "arrname",
-                            "type": "array",
-                            "fields": [
-                                {
-                                    "name": "a1",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "a2",
-                                    "type": "number"
-                                },
-                                {
-                                    "name": "a3",
-                                    "type": "number"
-                                },
-                                {
-                                    "name": "a4",
-                                    "type": "id"
-                                }
-                            ]
-                        },
-                        {
-                            "name": "arrname2",
-                            "type": "array",
-                            "fields": [
-                                {
-                                    "name": "b3",
-                                    "type": "string"
-                                },
-                                {
-                                    "name": "cb2",
-                                    "type": "number"
-                                },
-                                {
-                                    "name": "aa3",
-                                    "type": "number"
-                                }
-                            ]
-                        }
-                    ]
-                },
-                "query": false
-            },
-            "schema1": {
-                "fields": [
-                    {
-                        "name": "a1",
-                        "type": "string"
-                    },
-                    {
-                        "name": "a2",
-                        "type": "number"
-                    },
-                    {
-                        "name": "a3",
-                        "type": "number"
-                    },
-                    {
-                        "name": "a4",
-                        "type": "id"
-                    }
-                ],
-                "accept": {}
-            },
-            "schema2": {
-                "fields": [
-                    {
-                        "name": "b3",
-                        "type": "string"
-                    },
-                    {
-                        "name": "cb2",
-                        "type": "number"
-                    },
-                    {
-                        "name": "aa3",
-                        "type": "number"
-                    }
-                ]
-            },
-            "schema3": {
-                "fields": [
-                    {
-                        "name": "a3",
-                        "type": "string"
-                    },
-                    {
-                        "name": "cb2",
-                        "type": "number"
-                    },
-                    {
-                        "name": "aa3",
-                        "type": "id"
-                    }
-                ]
-            },
-            "complex1": {
-                "fields": [
-                    {
-                        "name": "c1",
-                        "type": "string"
-                    },
-                    {
-                        "name": "c3",
-                        "type": "string"
-                    },
-                    {
-                        "name": "bbba37",
-                        "type": "string"
-                    }
-                ],
-                "arrs": [
-                    {
-                        "name": "arrname",
-                        "type": "array",
-                        "fields": [
-                            {
-                                "name": "a1",
-                                "type": "string"
-                            },
-                            {
-                                "name": "a2",
-                                "type": "number"
-                            },
-                            {
-                                "name": "a3",
-                                "type": "number"
-                            },
-                            {
-                                "name": "a4",
-                                "type": "id"
-                            }
-                        ]
-                    },
-                    {
-                        "name": "arrname2",
-                        "type": "array",
-                        "fields": [
-                            {
-                                "name": "b3",
-                                "type": "string"
-                            },
-                            {
-                                "name": "cb2",
-                                "type": "number"
-                            },
-                            {
-                                "name": "aa3",
-                                "type": "number"
-                            }
-                        ]
-                    }
-                ]
-            }
-        }
     },
     "workshop": {
         "name": "Workshop",
@@ -2065,7 +1448,9 @@ export const uqSchema = {
             },
             {
                 "name": "staff",
-                "type": "id"
+                "type": "id",
+                "ID": "person",
+                "tuid": "person"
             }
         ],
         "keys": [
@@ -2097,7 +1482,9 @@ export const uqSchema = {
             },
             {
                 "name": "workshop",
-                "type": "id"
+                "type": "id",
+                "ID": "workshop",
+                "tuid": "workshop"
             },
             {
                 "name": "date",
@@ -2137,15 +1524,21 @@ export const uqSchema = {
             },
             {
                 "name": "session",
-                "type": "id"
+                "type": "id",
+                "ID": "session",
+                "tuid": "session"
             },
             {
                 "name": "person",
-                "type": "id"
+                "type": "id",
+                "ID": "person",
+                "tuid": "person"
             },
             {
                 "name": "workshop",
-                "type": "id"
+                "type": "id",
+                "ID": "workshop",
+                "tuid": "workshop"
             },
             {
                 "name": "deleted",
@@ -2155,11 +1548,15 @@ export const uqSchema = {
         "keys": [
             {
                 "name": "session",
-                "type": "id"
+                "type": "id",
+                "ID": "session",
+                "tuid": "session"
             },
             {
                 "name": "person",
-                "type": "id"
+                "type": "id",
+                "ID": "person",
+                "tuid": "person"
             }
         ],
         "global": false,
@@ -2174,11 +1571,13 @@ export const uqSchema = {
             {
                 "name": "ix",
                 "type": "id",
+                "ID": "$uu",
                 "tuid": "$uu"
             },
             {
                 "name": "xi",
                 "type": "id",
+                "ID": "$uu",
                 "tuid": "$uu"
             }
         ],
@@ -2207,11 +1606,13 @@ export const uqSchema = {
             {
                 "name": "ix",
                 "type": "id",
+                "ID": "$uu",
                 "tuid": "$uu"
             },
             {
                 "name": "xi",
                 "type": "id",
+                "ID": "$uu",
                 "tuid": "$uu"
             }
         ],
@@ -2232,11 +1633,13 @@ export const uqSchema = {
             {
                 "name": "ix",
                 "type": "id",
+                "ID": "$uu",
                 "tuid": "$uu"
             },
             {
                 "name": "xi",
                 "type": "id",
+                "ID": "$uu",
                 "tuid": "$uu"
             }
         ],
@@ -2330,7 +1733,9 @@ export const uqSchema = {
                     },
                     {
                         "name": "workshop",
-                        "type": "id"
+                        "type": "id",
+                        "ID": "workshop",
+                        "tuid": "workshop"
                     },
                     {
                         "name": "date",

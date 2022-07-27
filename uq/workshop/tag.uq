@@ -1,18 +1,26 @@
+CONST TagGroupNames = {
+    staff: 'staff-tags',
+    client: 'client-tags',
+    workshop: 'workshop-tags',
+    donator: 'donator-tags',
+    note: 'note-tags',
+};
+
 -- ID has one tag group
 -- a tag group has multiple tag sets
 -- a tag set has multiple tags
-ID TagGroup CONST (
-    id SMALL,
+ID TagGroup UCONST (
+    id,
     KEY name CHAR(50),
     SYS (create, update),
 )
 + (name)
 VALUES
-('staff-tags'),         -- tag group
-('client-tags'),        -- tag group
-('workshop-tags'),      -- tag group
-('donator-tags'),       -- tag group
-('note-tags'),          -- tag group
+(TagGroupNames.staff),         -- tag group
+(TagGroupNames.client),        -- tag group
+(TagGroupNames.workshop),      -- tag group
+(TagGroupNames.donator),       -- tag group
+(TagGroupNames.note),          -- tag group
 ;
 
 ID Tag ULOCAL (
@@ -30,16 +38,21 @@ ID TagItem ver 0.10 ULOCAL (
 );
 
 IX *IxTag (
-    ix SMALL,           -- TagGroup | Tag
-    xi SMALL,           -- Tag | TagItem
+    ix,                 -- TagGroup | Tag
+    xi,                 -- Tag | TagItem
+);
+
+IX *IxIdTag (
+    ix ID,
+    xi,
 );
 
 IX *IxLocalIdTag (
     ix ID,
-    xi SMALL,
+    xi,
 );
 
 IX *IxGlobalIdTag (
     ix ID,
-    xi SMALL,
+    xi,
 );

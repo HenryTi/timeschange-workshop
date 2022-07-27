@@ -10,7 +10,7 @@ interface Props {
     iconClass: string;
 }
 
-export function TagPageBase(props: Props) {
+export function TagPage(props: Props) {
     let { uqTagProps, caption, icon, iconClass } = props;
     let { groups } = uqTagProps;
     let nav = useNav();

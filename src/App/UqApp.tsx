@@ -19,31 +19,29 @@ export class UqApp extends UqAppBase<UQs> {
         await super.init(initPage, navigateFunc);
         if (this.uqs) {
             //let poked = () => this.uqs.BzWorkshop.$poked.query(undefined, undefined, false);
+            await Promise.all([this.loadIsMeAdmin(), this.loadMeRoles()]);
+            //await this.loadMeRoles();
             let autoLoader: Promise<any> = undefined;
             this.autoRefresh = new AutoRefresh(this.uqs.BzWorkshop, autoLoader);
             this.autoRefresh.start();
         }
     }
 
-    async getIsRole(roles: Role[]): Promise<boolean> {
+    isRole(roles: Role[]): boolean {
         if (roles === undefined) return false;
-        await this.loadMeRoles();
+        //await this.loadMeRoles();
         for (let r of roles) {
             if (this.meRoles[r] !== undefined) return true;
         }
         return false;
     }
 
-    async getIsAdminOrRole(roles: Role[]): Promise<boolean> {
-        let promises = [this.loadIsMeAdmin()];
-        if (roles) promises.push(this.loadMeRoles());
-        await Promise.all([this.loadMeRoles(), this.loadIsMeAdmin()]);
+    isAdminOrRole(roles: Role[]): boolean {
         if (this.meAdmin === true) return true;
-        return await this.getIsRole(roles);
+        return this.isRole(roles);
     }
 
-    async getIsPersonMe(person: number): Promise<boolean> {
-        await this.loadMeRoles();
+    isPersonMe(person: number): boolean {
         for (let i in this.meRoles) {
             if (person === this.meRoles[Number(i) as Role]) return true;
         }

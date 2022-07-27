@@ -89,7 +89,7 @@ export function Check(props: CheckProps) {
 
 export function BandCheck(props: BandProps & CheckProps) {
     let { label } = props;
-    return <Band {...props} contentType={BandContentType.check}>
+    return <Band {...props} label={undefined} contentType={BandContentType.check}>
         <Check {...props} label={label} />
     </Band>;
 }

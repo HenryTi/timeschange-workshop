@@ -1,3 +1,3 @@
-export * from './TagInputBase';
+export * from './TagInput';
 export * from './UqTag';
-export * from './TagPageBase';
+export * from './TagPage';

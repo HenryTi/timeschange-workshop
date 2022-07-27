@@ -2,7 +2,7 @@ UQ [BizDev]/[workshop] version='0.1.12' author='henry' {
     -- SCHEDULE Test ON 6:31;
 };
 
-ENUM Role ( 
+ENUM Role (
     staff = 10,
     counselor = 11,
     volunteer = 12,

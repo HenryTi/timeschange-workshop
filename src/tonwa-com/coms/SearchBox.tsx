@@ -48,9 +48,6 @@ export function SearchBox(props: SearchBoxProps) {
         if (input) input.disabled = false;
         if (button) button.disabled = false;
     }
-    function clear() {
-        if (input) input.value = '';
-    }
 
     let inputSize: string;
     switch (size) {
