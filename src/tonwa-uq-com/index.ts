@@ -2,7 +2,7 @@ export * from './ID';
 export * from './fields';
 export * from './Tag';
 export * from './ListEdit';
-export * from './UqAppBase';
+export * from './UqApp';
 export * from './auth';
 export * from './AutoRefresh';
 export * from './Admin';

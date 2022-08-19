@@ -2,7 +2,7 @@ import { useState } from "react";
 import { MutedSmall, Page, SearchBox, useNav } from "tonwa-com";
 import { FA } from "tonwa-com";
 import { User } from "tonwa-uq";
-import { useUqAppBase } from "../UqAppBase";
+import { useUqAppBase } from "../UqApp";
 import { Image } from "./Image";
 
 interface Props {

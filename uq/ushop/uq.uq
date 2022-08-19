@@ -1,0 +1,88 @@
+UQ BizDev/ushop version='0.1.6' author='henry' {
+    -- SCHEDULE Test ON 6:31;
+};
+
+Role ver 0.7 (
+    shopManager, 
+    shop (
+        product,        -- 产品发布
+        delivery,       -- 发货员
+        accountant,     -- 会计
+    )
+);
+
+ACT a ver 0.8 (
+) {
+    Assert Role shop.product UNIT=3;
+    Assert Role UNIT=3 shopManager;
+    Assert Role UNIT=3 admin;
+    Assert Role owner UNIT=3;
+
+    -- WITH $userunit_role IX=1 XI=2;
+    WITH IxShow IX=1 XI=2;
+    var a int;
+    -- SET a=isROLE(admin of 3);
+    SET a=isROLE(admin of 3);
+
+    -- SET a=isROLE(owner of 3);
+    SET a=isROLE(owner of 3);
+
+    -- SET a=isROLE(shop.product of 3);
+    SET a=isROLE(shop.product of 3);
+
+    -- SET a=isROLE(shopManager of 2);
+    SET a=isROLE(shopManager of 2);
+
+    ROLE UNIT=3 Add Owner;
+    ROLE UNIT=3 DEL Owner;
+    ROLE UNIT=3 Add Owner=1;
+    -- [Add|Del] Owner[=val]; -- if there is owner, change owner
+    ROLE UNIT=3 Add Admin=1 SET Assigned='add admin';
+    ROLE UNIT=3 Del Admin=1 SET Assigned='del admin';
+    -- [Add|Del] Admin=5 SET Assigned='..'; -- check owner, set admin
+    ROLE UNIT=3 User=5 Add shopManager SET Assigned='b';
+    ROLE UNIT=3 User=5 Add shop.product SET Assigned='c';
+    ROLE UNIT=3 User=5 DEL shop.accountant SET Assigned='c';
+    ROLE UNIT=3 User=5 Clear;
+    -- [[[Add|Del] RoleName]|Clear] SET Assigned='..'; 
+};
+
+QUERY role_my ver 1.0 (
+)
+RETURNS admins (
+    id ID,
+    unit ID,
+    user ID,
+    admin TINYINT,
+    entity CHAR(100),
+    unitProps TEXT,
+)
+RETURNS roles (
+    id ID,
+    unit ID,
+    user ID,
+    role CHAR(100),
+    entity CHAR(100),
+    unitProps TEXT,
+)
+RETURNS unitProps (
+    unit ID,
+    props TEXT,             -- unit props values
+) {
+    INTO admins SELECT a.id, a.unit, a.user, a.admin, EntityName(a.unit) as entity, null as unitProps
+        FROM $userunit as a
+        WHERE a.user=$user;
+    INTO roles SELECT a.id, a.unit, a.user, idtext(b.xi) as role, EntityName(a.unit) as entity, null as unitProps
+        FROM $userunit as a
+            JOIN $userunit_role as b ON a.id=b.ix
+        WHERE a.user=$user;
+    FOR (VAR unit BIGINT, entity CHAR(100)
+        OF SELECT a.unit, EntityName(a.unit) as entity
+            FROM (SELECT DISTINCT unit FROM admins UNION SELECT unit from roles) as a
+        )
+    {
+        VAR unitProps TEXT;
+        EXECSQL CONCAT('tv_', entity, '$value(', unit, ');') TO unitProps;
+        INTO unitProps SELECT unit, unitProps as props;
+    }
+};

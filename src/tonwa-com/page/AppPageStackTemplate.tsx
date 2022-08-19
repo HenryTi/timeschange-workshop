@@ -1,7 +1,7 @@
 import { Error } from "./Error";
 import { PageFooterProps, PageProps, PageTemplateProps } from "./PageProps";
 import { usePageTemplate } from "./PageTemplate";
-import "../css/tonwa-page.css";
+//import "../css/tonwa-page.css";
 import { Back } from "./BackTemplate";
 
 const defaultContentClassName = ' bg-white ';

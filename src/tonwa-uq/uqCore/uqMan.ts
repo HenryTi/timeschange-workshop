@@ -13,7 +13,7 @@ import { UqEnum } from './enum';
 import { Entity } from './entity';
 import { ID, IX, IDX } from './ID';
 import { Net } from '../net';
-import { UqSys } from './uqSys';
+import { UqUnit } from './uqUnit';
 
 export type FieldType = 'id' | 'tinyint' | 'smallint' | 'int' | 'bigint' | 'dec' | 'float' | 'double' | 'char' | 'text'
     | 'datetime' | 'date' | 'time' | 'timestamp' | 'enum';
@@ -251,9 +251,9 @@ enum EnumResultType { data, sql };
 export interface Uq {
     $: Uq;
     $name: string;
-    sys: UqSys;
+    Role: { [key: string]: string[] };
     idObj<T = any>(id: number): Promise<T>;
-    IDValue(type: string, value: string): object;
+    IDValue<T>(type: string, value: string): T;
     Acts(param: any): Promise<any>;
     ActIX<T>(param: ParamActIX<T>): Promise<number[]>;
     ActIXSort(param: ParamActIXSort): Promise<void>;
@@ -306,7 +306,6 @@ export class UqMan {
     private readonly pendings: { [name: string]: Pending } = {};
     private readonly tuidsCache: TuidsCache;
     private readonly localEntities: LocalCache;
-    readonly sys: UqSys;
     readonly localMap: LocalMap;
     readonly localModifyMax: LocalCache;
     readonly tuids: { [name: string]: Tuid } = {};
@@ -340,7 +339,6 @@ export class UqMan {
         this.tuidsCache = new TuidsCache(this);
         let baseUrl = 'tv/';
         this.uqApi = new UqApi(this.net, baseUrl, this.uqOwner, this.uqName);
-        this.sys = new UqSys(this.entities);
     }
 
     getID(name: string): ID { return this.ids[name.toLowerCase()]; };
@@ -374,7 +372,7 @@ export class UqMan {
         }
     }
 
-    allRoles: string[];
+    Role: { [key: string]: string[] };
     readonly tuidArr: Tuid[] = [];
     readonly actionArr: Action[] = [];
     readonly queryArr: Query[] = [];
@@ -387,13 +385,7 @@ export class UqMan {
     readonly mapArr: Map[] = [];
     readonly historyArr: History[] = [];
     readonly pendingArr: Pending[] = [];
-    /*
-        private async initUqApi() {
-            if (!this.uqApi) {
-                await this.uqApi.init();
-            }
-        }
-    */
+
     async loadEntities(): Promise<string> {
         try {
             let entities = this.localEntities.get();
@@ -402,6 +394,7 @@ export class UqMan {
             }
             if (!entities) return;
             this.buildEntities(entities);
+            return undefined;
         }
         catch (err) {
             return err as any;
@@ -415,10 +408,23 @@ export class UqMan {
         this.localEntities.set(entities);
         let { access, tuids, role, version, ids } = entities;
         this.uqVersion = version;
-        this.allRoles = role?.names;
+        this.Role = this.buildRole(role?.names);
         this.buildTuids(tuids);
         this.buildIds(ids);
         this.buildAccess(access);
+    }
+
+    private buildRole(roleNames: { [key: string]: string[] }) {
+        if (roleNames === undefined) return;
+        let ret: { [key: string]: string[] } = {};
+        for (let i in roleNames) {
+            let items = roleNames[i];
+            if (i !== '$') {
+                items = items.map(v => `${i}.${v}`);
+            }
+            ret[i] = items;
+        }
+        return ret;
     }
 
     private buildTuids(tuids: any) {
@@ -829,11 +835,6 @@ export class UqMan {
         if (!type) return;
         let ID = this.ids[type.toLowerCase()];
         if (ID === undefined) return;
-        /*
-        if (ID.fields === undefined) {
-            await ID.loadSchema();
-        }
-        */
         return ID.valueFromString(value)
     };
 

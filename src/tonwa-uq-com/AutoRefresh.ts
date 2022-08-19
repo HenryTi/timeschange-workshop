@@ -1,14 +1,15 @@
 import { Uq } from "tonwa-uq";
+import { UqApp } from "./UqApp";
 
 const gaps = [10, 3, 3, 3, 3, 3, 5, 5, 5, 5, 5, 5, 5, 5, 10, 10, 10, 10, 15, 15, 15, 30, 30, 60];
 
 export class AutoRefresh {
-    private readonly uq: Uq;
+    private readonly uqApp: UqApp;
     private readonly refreshAction: Promise<void>;
     private timer: any;
 
-    constructor(uq: Uq, refreshAction: Promise<void>) {
-        this.uq = uq;
+    constructor(uqApp: UqApp, refreshAction: Promise<void>) {
+        this.uqApp = uqApp;
         this.refreshAction = refreshAction;
     }
 
@@ -37,15 +38,17 @@ export class AutoRefresh {
     private gapIndex = 0;
     private callTick = async () => {
         try {
-            // if (!this.user) return;
             ++this.tick;
             if (this.tick < gaps[this.gapIndex]) return;
             this.tick = 0;
             if (this.gapIndex < gaps.length - 1) ++this.gapIndex;
-            let poked = await this.uq.sys.Poked(); // this.uqs.JkMe.$poked.query(undefined, undefined, false);
-            if (poked === true) return;
-            this.gapIndex = 1;
-            await this.refresh();
+            let { uqUnit } = this.uqApp;
+            if (uqUnit) {
+                let poked = await uqUnit.Poked();
+                if (poked === true) return;
+                this.gapIndex = 1;
+                await this.refresh();
+            }
         }
         catch {
         }

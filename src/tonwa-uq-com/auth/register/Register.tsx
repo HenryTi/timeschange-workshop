@@ -5,7 +5,7 @@ import { Verify } from './Verify';
 import { Pass } from './Pass';
 import { ForgetPassword, RegisterPassword } from './Password';
 import { Login } from '../Login';
-import { useUqAppBase } from '../../UqAppBase';
+import { useUqAppBase } from '../../UqApp';
 import { BandString } from 'tonwa-com';
 import { Band, BandContainerContext } from 'tonwa-com';
 import { Form, FormBandTemplate1, Submit } from 'tonwa-com';

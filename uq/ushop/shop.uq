@@ -1,0 +1,27 @@
+-- Shop ID
+-- 1: general retail shop
+-- 2: general wholesale shop
+-- 3: distributor shop, owned by distributor
+-- 4: agent shop, owned by agent
+-- 5: sales shop, owned by sales
+
+-- owner: in IX
+ID Shop ver 0.1 UUID (
+    id MINUTE,
+    KEY no,
+    name CHAR(50),          -- 唯一代号. 暂时不实现唯一检查
+    discription TEXT,       -- 可以是html的描述
+) Role Shop;
+
+ID Shelf ULocal (
+    id MINUTE,
+    KEY no,                 -- 自动编号
+    caption CHAR(100),      -- 标题，显示用
+    shop ID,
+);
+
+IX IxShow (
+    ix,                     -- shop, shelf, ShowItem
+    seq,
+    xi,                     -- shelf, ShowItem, SaleItem
+);

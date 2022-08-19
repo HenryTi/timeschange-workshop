@@ -2,7 +2,7 @@ import { UPage, useNav } from "tonwa-com";
 import { Band } from "tonwa-com";
 import { BandPassword } from "tonwa-com";
 import { Form, FormBandTemplate1, Submit, FormErrors } from "tonwa-com";
-import { useUqAppBase } from "../UqAppBase";
+import { useUqAppBase } from "../UqApp";
 
 //type OnChange = (orgPassword: string, newPassword: string) => Promise<boolean>;
 

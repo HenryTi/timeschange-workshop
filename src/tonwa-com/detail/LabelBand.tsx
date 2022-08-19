@@ -1,4 +1,4 @@
-import { FA } from "tonwa-com";
+import { FA } from "../coms";
 
 interface Props {
     label?: string;

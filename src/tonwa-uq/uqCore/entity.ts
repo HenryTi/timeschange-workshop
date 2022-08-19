@@ -49,8 +49,6 @@ export abstract class Entity {
 
     public face: any;           // 对应字段的label, placeHolder等等的中文，或者语言的翻译
 
-    //getApiFrom() {return this.entities.uqApi;}
-
     private fieldMaps: { [arr: string]: FieldMap } = {};
     fieldMap(arr?: string): FieldMap {
         if (arr === undefined) arr = '$';
@@ -101,12 +99,23 @@ export abstract class Entity {
 
     public setSchema(schema: any) {
         if (schema === undefined) return;
-        let { name, version } = schema;
+        let { name, version, permit } = schema;
         this.ver = version || 0;
         this.setJName(name);
         this.schemaLocal.set(schema);
         this.schema = schema;
         this.buildFieldsTuid();
+        this.setPermitRole(this.getPermitRole(permit));
+    }
+
+    private getPermitRole(permit: string) {
+        if (permit === undefined) return undefined;
+        let p = permit.indexOf('+');
+        if (p < 0) return permit;
+        return permit.substring(0, p);
+    }
+
+    protected setPermitRole(role: string) {
     }
 
     protected setJName(name: string) {
@@ -382,12 +391,29 @@ export abstract class Entity {
         return ret;
     }
 
+    // ch=8 backspace, 有什么特别意义吗？看不懂 2022-8-16
+    // 根据代码看起来，像是null的意思
     protected unpackRow(ret: any, fields: Field[], data: string, p: number, sep: number = 9): number {
         let ch0 = 0, ch = 0, c = p, i = 0, len = data.length, fLen = fields.length;
+        const setFieldValue = () => {
+            let f = fields[i];
+            let { name } = f;
+            if (ch0 !== 8) {
+                if (p > c) {
+                    let v = data.substring(c, p);
+                    ret[name] = this.to(ret, v, f);
+                }
+            }
+            else {
+                ret[name] = null;
+            }
+        }
         for (; p < len; p++) {
             ch0 = ch;
             ch = data.charCodeAt(p);
             if (ch === sep) {
+                setFieldValue();
+                /*
                 let f = fields[i];
                 let { name } = f;
                 if (ch0 !== 8) {
@@ -399,6 +425,7 @@ export abstract class Entity {
                 else {
                     ret[name] = null;
                 }
+                */
                 c = p + 1;
                 ++i;
                 if (i >= fLen) {
@@ -425,12 +452,15 @@ export abstract class Entity {
                 return p;
             }
         }
+        setFieldValue();
+        /*
         let f = fields[i];
         let { name } = f;
         if (ch0 !== 8) {
             let v = data.substring(c);
             ret[name] = this.to(ret, v, f);
         }
+        */
         return len;
     }
 

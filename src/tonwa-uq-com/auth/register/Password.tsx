@@ -2,7 +2,7 @@ import { UPage, useNav } from 'tonwa-com';
 import { Band } from 'tonwa-com';
 import { BandPassword } from 'tonwa-com';
 import { Form, Submit } from 'tonwa-com';
-import { useUqAppBase } from '../../UqAppBase';
+import { useUqAppBase } from '../../UqApp';
 import { Pass } from './Pass';
 import { ForgetSuccess, RegisterSuccess } from './Success';
 

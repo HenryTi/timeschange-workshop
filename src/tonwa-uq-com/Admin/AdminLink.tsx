@@ -1,5 +1,5 @@
 import { ReactNode, useCallback, useEffect, useState } from "react";
-import { useNav, Spinner } from "tonwa-com";
+import { useNav, Spinner, useEffectOnce } from "tonwa-com";
 import { AdminPage } from "./AdminPage";
 
 export enum EnumAdminRoleInEdit { sys = 1, admin = 2, nSys = -1, nAdmin = -2, }
@@ -79,9 +79,9 @@ export function AdminLink({ LinkContainer, me, loadAdmins, setAdmin, setMeAdmin,
         }
         setAdminState(state);
     }, [me, loadAdmins]);
-    useEffect(() => {
+    useEffectOnce(() => {
         load();
-    }, [load]);
+    });
 
     if (adminState === null) {
         return <LinkContainer onClick={() => null}><Spinner /><span /></LinkContainer>;

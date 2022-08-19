@@ -140,7 +140,7 @@ export function Band(props: BandProps & { children: React.ReactNode; }) {
     let { label, children, BandTemplate, sep, contentType, onEdit, rightIcon, contentContainerClassName } = props;
     let content = children;
     let bandContainer = useBandContainer();
-    let memos: string[] = buildMemosFromChildren(children);
+    let memos: string[] | undefined = buildMemosFromChildren(children);
     let { current: band } = useRef(new BandContext(bandContainer, memos));
     let errors = useSnapshot(band.errors);
     if (!bandContainer) {

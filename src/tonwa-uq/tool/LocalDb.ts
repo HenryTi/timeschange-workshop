@@ -147,7 +147,12 @@ export class LocalArr extends Local {
     constructor(localDb: LocalDb, name: string) {
         super(localDb, name);
         let index = this.localDb.getItem(this.name);
-        this.index = index === null ? [] : index.split('\n').map(v => Number(v));
+        if (index) {
+            this.index = index.split('\n').map(v => Number(v));
+        }
+        else {
+            this.index = [];
+        }
     }
     private saveIndex() {
         this.localDb.setItem(this.name, this.index.join('\n'));
@@ -197,7 +202,7 @@ export class LocalMap extends Local {
         this.max = 0;
         this.index = {};
         let index = this.localDb.getItem(this.name);
-        if (index !== null) {
+        if (index) {
             let ls = index.split('\n');
             ls.forEach(l => {
                 let p = l.indexOf('\t');

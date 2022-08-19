@@ -6,3 +6,4 @@ export * from './localData';
 export * from './caseString';
 export * from './date';
 export * from './renderDate';
+export * from './useEffectOnce';

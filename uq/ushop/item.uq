@@ -1,0 +1,54 @@
+-- a product page
+IDX Show (
+    id,                     -- Item
+    content TEXT,
+);
+
+-- the price for sale. id can be any salable
+IDX ForSale (
+    id,                 -- ItemSale
+    price DEC(18,4),
+);
+
+-- basic item for sale
+-- 1. simple product, 2. simple service
+ID ItemSale ULocal (
+    id MINUTE,
+    KEY no,
+    discription CHAR(100),
+    icon CHAR(100),
+);
+
+ID ItemPackSale ULocal (
+    id MINUTE,
+    KEY item ID,
+    KEY pack ID,
+);
+
+ID ItemBatchSale ULocal (
+    id MINUTE,
+    KEY item ID,
+    KEY batch ID,
+);
+
+ID ItemPack ULocal (
+    id MINUTE,
+    discription CHAR(20),
+    item ID,
+    pack ID,
+    x DEC(8,4),
+    y DEC(8,4),
+);
+
+ID Pack ULocal (
+    id MINUTE,
+    KEY name CHAR(50),
+);
+
+ID Batch ULocal (
+    id MINUTE,
+    KEY no,             -- 录入，不是生成
+    item ID,
+    product DATE,
+    expire DATE,
+);

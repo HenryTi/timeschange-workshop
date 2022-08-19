@@ -113,7 +113,7 @@ export class StackNav<T extends StackItem> {
     }
 }
 
-function Waiting() {
+export function Waiting() {
     return <UPage header="..." back="none" headerClassName="bg-secondary">
         <div className="px-5 py-5 text-info text-center">
             <Spinner />

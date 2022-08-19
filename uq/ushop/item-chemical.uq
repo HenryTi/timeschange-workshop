@@ -1,0 +1,19 @@
+
+ID ItemChemical ULocal (
+    id MINUTE,
+    KEY no,
+    chemical ID,
+);
+
+-- 化学试剂
+ID Reagent ULocal (
+    id MINUTE,
+    chemical ID,
+);
+
+ID Chemical ULocal (
+    id MINUTE,
+    chinese CHAR(100),
+    english CHAR(100),
+    formula CHAR(100),
+);

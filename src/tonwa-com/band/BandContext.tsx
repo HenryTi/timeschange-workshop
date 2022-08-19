@@ -10,11 +10,11 @@ interface NamedError {
 export class BandContext {
     readonly container: BandContainerContext<any>;
     readonly errors: NamedError[];
-    readonly memos: string[];
+    readonly memos?: string[];
     readonly fields: { [name: string]: boolean };
-    readOnly: boolean;
+    readOnly: boolean = false;
 
-    constructor(container: BandContainerContext<any>, memos: string[]) {
+    constructor(container: BandContainerContext<any>, memos?: string[]) {
         this.container = container;
         this.errors = proxy([]);
         this.memos = memos;

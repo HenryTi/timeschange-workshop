@@ -1,5 +1,5 @@
 import { Page, useNav } from "tonwa-com";
-import { useUqAppBase } from "../UqAppBase";
+import { useUqAppBase } from "../UqApp";
 
 const waitingTime = '一小时';
 

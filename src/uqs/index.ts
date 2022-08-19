@@ -1,12 +1,12 @@
-//=== UqApp builder created on Sat Jul 23 2022 14:38:49 GMT-0400 (北美东部夏令时间) ===//
-import * as BzWorkshop from './BzWorkshop';
+//=== UqApp builder created on Thu Aug 18 2022 00:00:26 GMT-0400 (北美东部夏令时间) ===//
+import * as BzUShop from './BzUShop';
 
 export interface UQs {
-	BzWorkshop: BzWorkshop.UqExt;
+	BzUShop: BzUShop.UqExt;
 }
 
 export const uqsSchema = {
-	"bizdev/workshop": BzWorkshop.uqSchema,
+	"bizdev/ushop": BzUShop.uqSchema,
 }
 
-export * as BzWorkshop from './BzWorkshop';
+export * as BzUShop from './BzUShop';

@@ -27,7 +27,7 @@ export interface NetProps {
 
 export class Net {
     logout() {
-        throw new Error('Method not implemented.');
+        // throw new Error('Method not implemented.');
     }
     private hosts: Hosts;
     private testing: boolean;
@@ -69,7 +69,7 @@ export class Net {
         this.centerApi = new CenterApi(this, 'tv/');
         this.uqTokens = new UqTokens(this);
         this.userApi = new UserApi(this, 'tv/');
-        this.uqTokenApi = new UqTokenApi(this, 'tv/tie/');
+        this.uqTokenApi = new UqTokenApi(this, 'tv/');
         this.callCenterapi = new CallCenterApi(this, '');
         //this.guestApi = new GuestApi(this, 'tv/guest/');
         this.messageHub = new MessageHub(this);

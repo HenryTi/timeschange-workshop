@@ -7,7 +7,7 @@ import { BandPassword } from 'tonwa-com';
 import { FormBandTemplate1 } from 'tonwa-com';
 import { Band } from 'tonwa-com';
 import { FormErrors } from 'tonwa-com';
-import { useUqAppBase } from '../UqAppBase';
+import { useUqAppBase } from '../UqApp';
 import { Forget, Register } from './register/Register';
 import { getSender } from './tools';
 

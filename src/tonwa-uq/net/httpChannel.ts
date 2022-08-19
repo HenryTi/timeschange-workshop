@@ -185,21 +185,6 @@ export class HttpChannel {
         return options;
     }
 
-    /*
-    protected buildHeaders():Headers {
-        let {language, culture} = nav;
-        let headers = new Headers();
-        //headers.append('Access-Control-Allow-Origin', '*');
-        headers.append('Content-Type', 'application/json;charset=UTF-8');
-        let lang = language;
-        if (culture) lang += '-' + culture;
-        headers.append('Accept-Language', lang);
-        if (this.apiToken) { 
-            headers.append('Authorization', this.apiToken); 
-        }
-        return headers;
-    }
-    */
     protected buildHeaders(): { [name: string]: string } {
         let { language, culture } = this.net;
         let headers: { [name: string]: string } = {}; //new Headers();
@@ -217,22 +202,3 @@ export class HttpChannel {
         return headers;
     }
 }
-/*
-export class CenterHttpChannel extends HttpChannel {
-    protected async innerFetch(url: string, options: any): Promise<any> {
-        let u = this.hostUrl + url;
-        return new Promise<any>(async (resolve, reject) => {
-            await this.fetch(u, options, resolve, reject);
-        });
-    }
-}
-
-export class UqHttpChannel extends HttpChannel {
-    protected async innerFetch(url: string, options: any): Promise<any> {
-        let u = this.hostUrl + url;
-        return new Promise<any>(async (resolve, reject) => {
-            await this.fetch(u, options, resolve, reject);
-        });
-    }
-}
-*/

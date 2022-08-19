@@ -1,0 +1,1 @@
+export { ShopStartPage } from './StartPage';

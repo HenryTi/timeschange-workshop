@@ -49,13 +49,19 @@ export class UQsLoader {
         let ret: UqData[] = this.loadLocal(uqs);
         if (!ret) {
             let centerAppApi = new CenterAppApi(this.net, 'tv/');
-            ret = uqs.length === 0 ? [] : await centerAppApi.uqs(uqs);
+            try {
+                ret = uqs.length === 0 ? [] : await centerAppApi.uqs(uqs);
+            }
+            catch (e) {
+                debugger;
+            }
             if (ret.length < uqs.length) {
                 let err = `下列UQ：\n${uqs.map(v => `${v.owner}/${v.name}`).join('\n')}之一不存在`;
                 console.error(err);
                 throw Error(err);
             }
-            localStorage.setItem(uqDataLocalStore, JSON.stringify(ret));
+            //localStorage
+            this.net.localDb.setItem(uqDataLocalStore, JSON.stringify(ret));
         }
         for (let i = 0; i < uqs.length; i++) {
             let { ownerAlias, alias } = uqs[i];
@@ -66,7 +72,8 @@ export class UQsLoader {
     }
 
     private loadLocal(uqs: UqOption[]): UqData[] {
-        let local = localStorage.getItem(uqDataLocalStore);
+        // localStorage
+        let local = this.net.localDb.getItem(uqDataLocalStore);
         if (!local) return;
         try {
             let ret: UqData[] = JSON.parse(local);

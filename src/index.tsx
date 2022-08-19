@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import 'bootstrap/dist/css/bootstrap.css';
 import './index.css';
 import { BrowserRouter } from 'react-router-dom';
-import { UqAppView } from './App';
+import { MyUqAppView } from './App';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <BrowserRouter>
-            <UqAppView />
+            <MyUqAppView />
         </BrowserRouter>
     </React.StrictMode>
 );
