@@ -109,8 +109,8 @@ function QuitDone() {
         如果在{waitingTime}内容重新登录账号，注销操作自动取消。
         {waitingTime}之后，账号绑定手机、邮件等相关信息将被释放。账号无法将登录。
     </>;
-    let onClickButton1 = () => {
-        uqApp.logined(undefined);
+    let onClickButton1 = async () => {
+        await uqApp.logined(undefined);
     }
     return <Quit header="注销已账号" note={note} back="none">
         <Button1 onClick={onClickButton1} caption="退出" />

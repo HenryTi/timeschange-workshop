@@ -1,3 +1,4 @@
+import { Action } from "./action";
 import { Query } from "./query";
 import { UqMan } from "./uqMan";
 
@@ -17,9 +18,9 @@ export interface UserUnit<T = any> {
 }
 
 export interface UnitRoles {
-    meOwner: boolean;
+    // meOwner: boolean;
+    // meAdmin: boolean;
     owners: UserUnit[];
-    meAdmin: boolean;
     admins: UserUnit[];
     users: UserUnit[];
     usersOfRole: { [role: string]: UserUnit[] };
@@ -38,6 +39,12 @@ export class UqUnit {
 
     setCurrentUnit(userUnit: UserUnit) {
         this.userUnit = userUnit;
+    }
+
+    reset() {
+        this.userUnit = undefined;
+        this.myUnitsColl = undefined;
+        this.myUnits.splice(0);
     }
 
     async Poked(): Promise<boolean> {
@@ -93,45 +100,42 @@ export class UqUnit {
         }
     }
 
-    async loadUnitUsers(me: number, unit: number): Promise<UnitRoles> {
-        let meOwner: boolean;
-        let meAdmin: boolean;
+    async loadUnitUsers(/*me: number*/): Promise<UnitRoles> {
+        let unit = this.userUnit.unit
+        //let meOwner: boolean;
+        //let meAdmin: boolean;
         let owners: UserUnit[] = [];
         let admins: UserUnit[] = [];
         let coll: { [user: number]: UserUnit } = {};
         let query: Query = this.uqMan.entities['$role_unit_users'] as any;
-        let { users, roles: roleRows } = await query.query({ unit });
-        for (let userRow of users) {
+        let { users: userRows, roles: roleRows } = await query.query({ unit });
+        let users: UserUnit[] = [];
+        for (let userRow of userRows) {
             let { user, admin } = userRow;
             coll[user] = userRow;
             let isAdmin = userRow.isAdmin = ((admin & 1) === 1);
             let isOwner = userRow.isOwner = ((admin & 2) === 2);
-            if (isAdmin === true) {
-                if (user === me) {
-                    meAdmin = true;
-                }
-                else {
-                    admins.push(userRow);
-                }
+            /*
+            if (user === me) {
+                if (isOwner === true) meOwner = true;
+                else if (isAdmin === true) meAdmin = true;
             }
-            if (isOwner === true) {
-                if (user === me) {
-                    meOwner = true;
-                }
-                else {
-                    owners.push(userRow);
-                }
-            }
+            else {
+            */
+            if (isOwner === true) owners.push(userRow);
+            else if (isAdmin === true) admins.push(userRow);
+            else users.push(userRow);
+            //}
         }
 
         let rolesColl: { [role: string]: UserUnit[] } = {};
-        let usersOfRole: { [role: string]: UserUnit[]; };
+        let usersOfRole: { [role: string]: UserUnit[]; } = {};
         for (let roleRow of roleRows) {
             let { user, role } = roleRow;
             let userUnit = coll[user];
             if (userUnit !== undefined) {
                 let { roles: roleArr } = userUnit;
-                if (rolesColl === undefined) {
+                if (roleArr === undefined) {
                     userUnit.roles = roleArr = [];
                 }
                 roleArr.push(role);
@@ -143,6 +147,37 @@ export class UqUnit {
             }
             roleUsers.push(userUnit);
         }
-        return { meOwner, owners, meAdmin, admins, users, usersOfRole };
+        return { /*meOwner, meAdmin, */owners, admins, users, usersOfRole };
+    }
+
+    async addAdmin(user: number, admin: 1 | 3, assigned: string) {
+        let act: Action = this.uqMan.entities['$role_unit_add_admin'] as any;
+        await act.submit({
+            unit: this.userUnit.unitId,
+            user,
+            admin,
+            assigned,
+        });
+        return await this.uqMan.syncUser(user);
+    }
+
+    async addUser(user: number, assigned: string) {
+        let act: Action = this.uqMan.entities['$role_unit_add_user'] as any;
+        await act.submit({
+            unit: this.userUnit.unitId,
+            user,
+            assigned,
+        });
+        return await this.uqMan.syncUser(user);
+    }
+
+    async setUserRole(user: number, action: 'add' | 'del' | 'clear', role: string) {
+        let act: Action = this.uqMan.entities['$role_unit_user_role'] as any;
+        await act.submit({
+            unit: this.userUnit.unitId,
+            user,
+            action,
+            role
+        });
     }
 }

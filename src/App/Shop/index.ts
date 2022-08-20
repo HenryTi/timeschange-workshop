@@ -1,1 +1,1 @@
-export { ShopStartPage } from './StartPage';
+export { PageShops as ShopStartPage } from './PageShops';

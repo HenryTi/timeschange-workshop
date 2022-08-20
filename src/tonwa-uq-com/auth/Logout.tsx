@@ -5,11 +5,11 @@ export function Logout({ onLogout, resetAll }: { onLogout: () => Promise<void>; 
     let nav = useNav();
     let uqApp = useUqAppBase();
     // let header = this.isWebNav === true ? false : '安全退出';
-    function onClickLogout() {
-        nav.close();
-        nav.appNav.onLoginChanged(false);
-        uqApp.logined(undefined);
-        onLogout?.();
+    async function onClickLogout() {
+        await uqApp.logined(undefined);
+        //nav.appNav.onLogined(false);
+        await onLogout?.();
+        nav.close(2);
         document.location.reload();
     }
     let header = '安全退出';

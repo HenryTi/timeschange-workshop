@@ -115,6 +115,10 @@ export class UqApi extends ApiBase {
     async queueModify(start: number, page: number, entities: string) {
         return await this.post('queue-modify', { start: start, page: page, entities: entities });
     }
+
+    async syncUser(user: number) {
+        return await this.post('sync-user', { user });
+    }
 }
 
 export abstract class CenterApiBase extends ApiBase {

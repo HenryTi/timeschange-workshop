@@ -9,9 +9,12 @@ interface Props<T> extends ListPropsWithoutItems<T> {
 export class ListEditContext<T> {
     private readonly response: { items: T[]; };
     private readonly keyCompareFunc: (item1: T, item2: T) => boolean;
-    constructor(items: T[], keyCompare: (item1: T, item2: T) => boolean) {
+    constructor(items: T[], keyCompare: string | ((item1: T, item2: T) => boolean)) {
         this.response = proxy({ items });
-        this.keyCompareFunc = keyCompare;
+        this.keyCompareFunc = (typeof keyCompare === 'string') ?
+            (item1: T, item2: T) => (item1 as any)[keyCompare] === (item2 as any)[keyCompare]
+            :
+            keyCompare;
     }
 
     protected keyCompare(item1: T, item2: T): boolean {
@@ -21,6 +24,7 @@ export class ListEditContext<T> {
     setItems(items: T[]) {
         this.response.items = items;
     }
+    get items() { return this.response.items; }
     getResponse() { return this.response; }
 
     private findIndex(item: T): number {

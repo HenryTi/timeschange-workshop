@@ -982,6 +982,10 @@ export class UqMan {
         return ret;
     }
 
+    async syncUser(user: number) {
+        return await this.uqApi.syncUser(user);
+    }
+
     IDTv = async (ids: number[]): Promise<any[]> => {
         let ret = await this.apiIDTv(ids, EnumResultType.data);
         let retValues: any[] = [];

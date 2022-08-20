@@ -71,19 +71,30 @@ export abstract class UqApp<U = any> {
         this.uqUnit.setCurrentUnit(userUnit);
     }
     get userUnit() { return this.uqUnit.userUnit; }
-    get me() { return this.responsive?.user?.id; }
+    get me() { return this.responsive.user?.id; }
 
-    logined(user: User) {
+    async logined(user: User) {
         this.net.logoutApis();
         this.responsive.user = user;
-        this.appNav.onLoginChanged(true);
+        // this.uqUnit?.reset();
+        let autoLoader: Promise<any> = undefined;
+        let autoRefresh = new AutoRefresh(this, autoLoader);
         if (user) {
-            // let jwt = 
             jwtDecode(user.token);
             this.net.setCenterToken(user.id, user.token);
+
+            if (this.uq !== undefined) {
+                this.uqUnit = new UqUnit(this.uq as any);
+                await this.uqUnit.loadMyRoles()
+                autoRefresh.start();
+            }
+            this.appNav.onLogined(true);
         }
         else {
             this.net.clearCenterToken();
+            this.uqUnit = undefined;
+            autoRefresh.stop();
+            this.appNav.onLogined(false);
         }
         this.localData.user.set(user);
     }
@@ -98,10 +109,11 @@ export abstract class UqApp<U = any> {
     saveLocalData() {
         this.localData.saveToLocalStorage();
     }
-
+    /*
     protected onInited(): Promise<void> {
         return;
     }
+    */
 
     //private uqsUserId: number = -1;
     private initCalled = false;
@@ -114,41 +126,27 @@ export abstract class UqApp<U = any> {
         this.initCalled = true;
         //if (this.responsive.user?.id === this.uqsUserId) return;
         await this.net.init();
-        let user = this.localData.user.get();
-        if (user) {
-            this.logined(user);
-        }
-        else {
-            let guest: Guest = this.localData.guest.get();
-            if (guest === undefined) {
-                guest = await this.net.userApi.guest();
-            }
-            if (!guest) {
-                debugger;
-                throw Error('guest can not be undefined');
-            }
-            this.net.setCenterToken(0, guest.token);
-            this.localData.guest.set(guest);
-        }
-
         try {
             let uqsMan = await createUQsMan(this.net, this.appConfig.version, this.uqConfigs, this.uqsSchema);
             this.uqs = uqsProxy(uqsMan) as U;
-            await this.onInited();
+            //await this.onInited();
 
             if (this.uqs) {
                 this.uq = this.defaultUq;
-                if (this.uq !== undefined) {
-                    this.uqUnit = new UqUnit(this.uq as any);
-                    //let poked = () => this.uqs.BzUShop.$poked.query(undefined, undefined, false);
-                    await Promise.all([
-                        this.uqUnit.loadMyRoles()
-                    ]);
+            }
+            let user = this.localData.user.get();
+            await this.logined(user);
+            if (!user) {
+                let guest: Guest = this.localData.guest.get();
+                if (guest === undefined) {
+                    guest = await this.net.userApi.guest();
                 }
-
-                let autoLoader: Promise<any> = undefined;
-                let autoRefresh = new AutoRefresh(this, autoLoader);
-                autoRefresh.start();
+                if (!guest) {
+                    debugger;
+                    throw Error('guest can not be undefined');
+                }
+                this.net.setCenterToken(0, guest.token);
+                this.localData.guest.set(guest);
             }
         }
         catch (error) {
@@ -175,17 +173,18 @@ export function useUqAppBase<U, T extends UqApp<U> = UqApp<U>>() {
 }
 
 export function UqAppView({ uqApp, children }: { uqApp: UqApp; children: ReactNode; }) {
-    let { appNav } = uqApp;
+    let { appNav, responsive } = uqApp;
     let [appInited, setAppInited] = useState<boolean>(false);
     let { stack } = useSnapshot(appNav.data);
-    let navigateFunc = useNavigate();
-    appNav.init(children, navigateFunc);
+    let { user } = useSnapshot(responsive);
     useEffectOnce(() => {
         (async function () {
             await uqApp.load();
             setAppInited(true);
         })();
     }/*, [uqApp, children, navigateFunc]*/);
+    let navigateFunc = useNavigate();
+    appNav.init(children, navigateFunc);
     if (appInited === false) {
         return <div className="p-5 text-center">
             <Spinner className="text-info" />
@@ -204,6 +203,7 @@ export function UqAppView({ uqApp, children }: { uqApp: UqApp; children: ReactNo
     return <UqAppContext.Provider value={uqApp}>
         <AppNavContext.Provider value={appNav}>
             <StackContainer stackItems={stack} />
+            {user !== undefined}
         </AppNavContext.Provider>
     </UqAppContext.Provider>;
 }

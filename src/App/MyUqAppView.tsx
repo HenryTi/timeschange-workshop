@@ -1,7 +1,7 @@
 import { useContext, useRef } from 'react';
-import { NavigateFunction } from "react-router-dom";
-import { AppConfig, AutoRefresh, UqApp, UqAppView, UqAppContext } from "tonwa-uq-com";
-import { Uq, UqConfig, UqUnit } from 'tonwa-uq';
+// import { NavigateFunction } from "react-router-dom";
+import { AppConfig, UqApp, UqAppView, UqAppContext } from "tonwa-uq-com";
+import { Uq, UqConfig } from 'tonwa-uq';
 import { UQs, uqsSchema } from "uqs";
 //import { AppRoutes } from './AppWithTabs';
 import { AppRoutes } from './AppWithPageStack';

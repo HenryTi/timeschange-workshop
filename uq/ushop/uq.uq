@@ -33,18 +33,16 @@ ACT a ver 0.8 (
     -- SET a=isROLE(shopManager of 2);
     SET a=isROLE(shopManager of 2);
 
-    ROLE UNIT=3 Add Owner;
-    ROLE UNIT=3 DEL Owner;
     ROLE UNIT=3 Add Owner=1;
-    -- [Add|Del] Owner[=val]; -- if there is owner, change owner
+    ROLE UNIT=3 DEL Owner;
+
     ROLE UNIT=3 Add Admin=1 SET Assigned='add admin';
     ROLE UNIT=3 Del Admin=1 SET Assigned='del admin';
-    -- [Add|Del] Admin=5 SET Assigned='..'; -- check owner, set admin
+
     ROLE UNIT=3 User=5 Add shopManager SET Assigned='b';
     ROLE UNIT=3 User=5 Add shop.product SET Assigned='c';
     ROLE UNIT=3 User=5 DEL shop.accountant SET Assigned='c';
     ROLE UNIT=3 User=5 Clear;
-    -- [[[Add|Del] RoleName]|Clear] SET Assigned='..'; 
 };
 
 QUERY role_my ver 1.0 (

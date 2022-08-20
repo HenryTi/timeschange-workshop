@@ -33,7 +33,7 @@ export class AppNav extends StackNav<StackItem> {
         this.navigateFunc(to, options);
     }
 
-    onLoginChanged = (isLogined: boolean) => {
+    onLogined = (isLogined: boolean) => {
         if (isLogined === true) {
             this.response.isLogined = isLogined;
         }

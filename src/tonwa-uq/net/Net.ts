@@ -57,7 +57,7 @@ export class Net {
     // 下面的变量应该以后会去掉
     isBuildingUQ: boolean;
     _uqs: any;
-    user: any;
+    // user: any;
     // -- end -------------------
 
     constructor(props: NetProps) {
